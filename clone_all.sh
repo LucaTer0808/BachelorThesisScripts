@@ -1,0 +1,12 @@
+git clone git@github.com:LucaTer0808/CATNet.git
+git clone git@github.com:LucaTer0808/CAVER.git
+git clone git@github.com:LucaTer0808/HFIL-Net.git
+git clone git@github.com:LucaTer0808/ITSD-pytorch.git
+git clone git@github.com:LucaTer0808/MINet.git
+git clone git@github.com:LucaTer0808/RGBD-SOD-datasets.git
+git clone git@github.com:LucaTer0808/SPSN.git
+git clone git@github.com:LucaTer0808/stdnet.git
+git clone git@github.com:LucaTer0808/TRACER.git
+git clone git@github.com:LucaTer0808/U-2-Net.git
+git clone git@github.com:LucaTer0808/VST.git
+git clone git@github.com:LucaTer0808/XMSNet.git
