@@ -28,8 +28,8 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 # Wir nutzen das offizielle HF-Repository von Apple / Depth Anything
 model_id = "depth-anything/Depth-Anything-V2-Base-hf"
-image_processor = AutoImageProcessor.from_pretrained(model_id)
-model = AutoModelForDepthEstimation.from_pretrained(model_id).to(device)
+image_processor = AutoImageProcessor.from_pretrained(model_id, use_fast=True)
+model = AutoModelForDepthEstimation.from_pretrained(model_id, dtype=torch.float16).to(device)
 model.eval()
 
 
