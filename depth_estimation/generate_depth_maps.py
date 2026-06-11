@@ -8,8 +8,8 @@ from tqdm import tqdm
 from transformers import AutoImageProcessor, AutoModelForDepthEstimation
 
 # --- CONFIGURATION ---
-SOURCE_PATH = "/scratch/tmp/lterfehr/datasets/rgb"
-TARGET_PATH = "/scratch/tmp/lterfehr/datasets/rgbd"
+SOURCE_PATH = "/scratch/tmp/lterfehr/datasets/rgb/DUT-OMRON/DUT-OMRON-image"
+TARGET_PATH = "/scratch/tmp/lterfehr/datasets/rgbd/DUT-OMRON_gen_depth/gen_depth"
 
 # Mögliche Bildendungen
 IMAGE_EXTENSIONS = ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.webp"]

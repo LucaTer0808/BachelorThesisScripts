@@ -14,7 +14,7 @@ module load GCCcore/13.2.0
 module load Python/3.11.5
 module load CUDA/12.1.1
 
-WORKDIR=/home/lterfehr/depth_estimation
+WORKDIR=/home/l/lterfehr/BachelorThesisScripts/depth_estimation
 VENV=$WORKDIR/.venv_depth
 
 # --- LOG-ORDNER ANLEGEN ---
@@ -43,6 +43,6 @@ echo "CUDA verfügbar: $(python -c 'import torch; print(torch.cuda.is_available(
 echo "GPU: $(nvidia-smi --query-gpu=name --format=csv,noheader)"
 
 # --- SCRIPT AUSFÜHREN ---
-python $WORKDIR/generate_depth.py
+python $WORKDIR/generate_depth_maps.py
 
 echo "Job beendet: $(date)"
