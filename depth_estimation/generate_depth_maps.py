@@ -1,5 +1,6 @@
 import os
 import glob
+import argparse
 import torch
 import numpy as np
 import cv2
@@ -7,9 +8,15 @@ from PIL import Image
 from tqdm import tqdm
 from transformers import AutoImageProcessor, AutoModelForDepthEstimation
 
+parser = argparse.ArgumentParser(description="Generiere Tiefenkarten aus RGB-Bildern mit Depth Anything v2 (Base-Modell).")
+parser.add_argument("--source", type=str, required=True, help="Pfad zum Ordner mit den RGB-Bildern.")
+parser.add_argument("--target", type=str, required=True, help="Pfad zum Ordner, in dem die generierten Tiefenkarten gespeichert werden sollen.")
+args = parser.parse_args()
+
+
 # --- CONFIGURATION ---
-SOURCE_PATH = "/scratch/tmp/lterfehr/datasets/rgb/DUTS/DUTS-TE/DUTS-TE-Image"
-TARGET_PATH = "/scratch/tmp/lterfehr/datasets/rgbd/DUTS_gen_depth/DUTS-TE/gen_depth"
+SOURCE_PATH = args.source
+TARGET_PATH = args.target
 
 # Mögliche Bildendungen
 IMAGE_EXTENSIONS = ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.webp"]
