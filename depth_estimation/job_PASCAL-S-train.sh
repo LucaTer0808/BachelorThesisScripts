@@ -44,6 +44,6 @@ echo "CUDA verfügbar: $(python -c 'import torch; print(torch.cuda.is_available(
 echo "GPU: $(nvidia-smi --query-gpu=name --format=csv,noheader)"
 
 # --- SCRIPT AUSFÜHREN ---
-python $WORKDIR/generate_depth_maps.py --source "/scratch/tmp/lterfehr/datasets/rgb/PASCAL-S/train_images" --target "/scratch/tmp/lterfehr/datasets/rgbd/PASCAL_S_gen_depth/train_gen_depth"
+python $WORKDIR/generate_depth_maps.py --source "/scratch/tmp/lterfehr/datasets/rgb/PASCAL-S/train_images" --target "/scratch/tmp/lterfehr/datasets/rgbd/PASCAL-S_gen_depth/train_gen_depth"
 
 echo "Job beendet: $(date)"
