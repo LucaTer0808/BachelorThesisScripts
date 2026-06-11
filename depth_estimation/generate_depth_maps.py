@@ -27,11 +27,9 @@ model.eval()
 
 # --- PROCESSING ---
 def generate_depth_maps():
-    # 1. Alle Bilder im Source-Pfad rekursiv finden
     image_paths = []
     for ext in IMAGE_EXTENSIONS:
-        # Sucht auch in Unterordnern (wichtig für deine DUTS-Struktur!)
-        image_paths.extend(glob.glob(os.path.join(SOURCE_PATH, "**", ext), recursive=True))
+        image_paths.extend(glob.glob(os.path.join(SOURCE_PATH, ext)))
     
     if not image_paths:
         print(f"Keine Bilder im Ordner '{SOURCE_PATH}' gefunden.")
@@ -52,7 +50,9 @@ def generate_depth_maps():
             out_path = os.path.join(TARGET_PATH, base_name)
             
             # Zielordner erstellen, falls er noch nicht existiert
-            os.makedirs(os.path.dirname(out_path), exist_ok=True)
+            out_dir = os.path.dirname(out_path)
+            if out_dir:
+                os.makedirs(out_dir, exist_ok=True)
 
             # 3. Model Inference (Tiefenberechnung)
             inputs = image_processor(images=raw_image, return_tensors="pt").to(device)
