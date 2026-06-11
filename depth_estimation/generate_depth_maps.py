@@ -4,6 +4,7 @@ import argparse
 import torch
 import numpy as np
 import cv2
+import time
 from PIL import Image
 from tqdm import tqdm
 from transformers import AutoImageProcessor, AutoModelForDepthEstimation
@@ -41,8 +42,12 @@ def generate_depth_maps():
     if not image_paths:
         print(f"Keine Bilder im Ordner '{SOURCE_PATH}' gefunden.")
         return
+    
+    number_images = len(image_paths)
 
-    print(f"{len(image_paths)} Bilder gefunden. Starte Tiefenschätzung...")
+    print(f"{number_images} Bilder gefunden. Starte Tiefenschätzung...")
+
+    start_time = time.time()
 
     # 2. Schleife über alle Bilder mit Fortschrittsanzeige
     for img_path in tqdm(image_paths):
@@ -93,6 +98,16 @@ def generate_depth_maps():
 
         except Exception as e:
             print(f"\nFehler beim Verarbeiten von {img_path}: {e}")
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    time_per_image = elapsed_time / number_images if number_images > 0 else 0
+
+    log_file_path = TARGET_PATH + ".txt"
+    with open(log_file_path, "w", encoding="utf-8") as log_file:
+        log_file.write(f"Anzahl Bilder: {number_images}\n")
+        log_file.write(f"Gesamte Verarbeitungszeit: {elapsed_time:.2f} Sekunden\n")
+        log_file.write(f"Durchschnittliche Zeit pro Bild: {time_per_image:.2f} Sekunden\n")
 
 if __name__ == "__main__":
     generate_depth_maps()
