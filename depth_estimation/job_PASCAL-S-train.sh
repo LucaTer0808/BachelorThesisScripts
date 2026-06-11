@@ -5,7 +5,7 @@
 #SBATCH --partition=gpuexpress
 #SBATCH --gres=gpu:1
 
-#SBATCH --job-name=depth_estimation_duts_te
+#SBATCH --job-name=depth_estimation_pascal_s_train
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=lterfehr@uni-muenster.de
 
@@ -44,6 +44,6 @@ echo "CUDA verfügbar: $(python -c 'import torch; print(torch.cuda.is_available(
 echo "GPU: $(nvidia-smi --query-gpu=name --format=csv,noheader)"
 
 # --- SCRIPT AUSFÜHREN ---
-python $WORKDIR/generate_depth_maps.py
+python $WORKDIR/generate_depth_maps.py --source "/scratch/tmp/lterfehr/datasets/rgb/PASCAL-S/train_images" --target "/scratch/tmp/lterfehr/datasets/rgbd/PASCAL_S_gen_depth/train_gen_depth"
 
 echo "Job beendet: $(date)"
