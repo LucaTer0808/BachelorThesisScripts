@@ -10,6 +10,7 @@
 #SBATCH --mail-user=lterfehr@uni-muenster.de
 
 # --- MODULE LADEN ---
+module load palma/2023b
 module load GCCcore/13.2.0
 module load Python/3.11.5
 module load CUDA/12.1.1
