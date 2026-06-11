@@ -5,7 +5,7 @@
 #SBATCH --partition=gpuexpress
 #SBATCH --gres=gpu:1
 
-#SBATCH --job-name=depth_estimation_dut_omron
+#SBATCH --job-name=depth_estimation_duts_te
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=lterfehr@uni-muenster.de
 
