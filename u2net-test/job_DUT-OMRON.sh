@@ -8,6 +8,13 @@
 #SBATCH --job-name=u2net_on_dut_omron
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=lterfehr@uni-muenster.de
+#SBATCH --export=None
+
+module --force purge
+module load palma/2023b
+module load GCCore/13.2.0
+module load Python/3.11.5
+module load CUDA/12.4.0
 
 WORKDIR=/scratch/tmp/lterfehr/BachelorThesisScripts/u2net-test
 MODELDIR=/scratch/tmp/lterfehr/models/U-2-Net
@@ -15,7 +22,7 @@ VENV=$MODELDIR/.venv
 
 cd "$MODELDIR"
 
-if [ ! -d "$VENV" ]; then
+if [ -d "$VENV" ]; then
     echo "=== Alte venv gefunden. Lösche Verzeichnis === "
     rm -rf "$VENV"
 fi
