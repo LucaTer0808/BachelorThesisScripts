@@ -12,7 +12,7 @@
 
 module --force purge
 module load palma/2023b
-module load GCCore/13.2.0
+module load GCCcore/13.2.0
 module load Python/3.11.5
 module load CUDA/12.4.0
 
