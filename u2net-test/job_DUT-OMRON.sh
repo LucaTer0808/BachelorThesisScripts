@@ -9,12 +9,6 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=lterfehr@uni-muenster.de
 
-module load palma/2023a
-module load palma/2023b
-module load GCCcore/13.2.0
-module load Python/3.11.5
-module load CUDA/12.1.1
-
 WORKDIR=/scratch/tmp/lterfehr/BachelorThesisScripts/u2net-test
 MODELDIR=/scratch/tmp/lterfehr/models/U-2-Net
 VENV=$MODELDIR/.venv
@@ -24,6 +18,7 @@ cd "$MODELDIR"
 if [ ! -d "$VENV" ]; then
     echo "=== Alte venv gefunden. Lösche Verzeichnis === "
     rm -rf "$VENV"
+fi
 
 echo "=== Erstelle venv komplett neu ==="
 python3 -m venv "$VENV"
