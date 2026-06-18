@@ -9,8 +9,8 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=lterfehr@uni-muenster.de
 
-module load palma/2023b
 module load palma/2023a
+module load palma/2023b
 module load GCCcore/13.2.0
 module load Python/3.11.5
 module load CUDA/12.1.1
@@ -22,16 +22,18 @@ VENV=$MODELDIR/.venv
 cd "$MODELDIR"
 
 if [ ! -d "$VENV" ]; then
-    echo "Erstelle venv..."
-    python3 -m venv $VENV
-    source $VENV/bin/activate
-    echo "Installiere requirements.txt..."
-    pip install --quiet -r $MODELDIR/requirements.txt
-    echo "Installation abgeschlossen."
-else
-    echo "venv bereits vorhanden, überspringe Installation."
-    source $VENV/bin/activate
-fi
+    echo "=== Alte venv gefunden. Lösche Verzeichnis === "
+    rm -rf "$VENV"
+
+echo "=== Erstelle venv komplett neu ==="
+python3 -m venv "$VENV"
+source "$VENV/bin/activate"
+
+echo "=== Installiere requirements.txt ==="
+pip install --quiet --upgrade pip
+pip install --quiet -r "$MODELDIR/requirements.txt"
+
+echo "=== Setup der virtuellen Umgebung abgeschlossen ==="
 
 echo "Starte U2-Net ..."
 
