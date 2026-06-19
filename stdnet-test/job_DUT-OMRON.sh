@@ -17,6 +17,7 @@ module load GCCcore/11.3.0
 module load Python/3.10.4
 module load CUDA/11.7.0
 module load OpenMPI/4.1.4
+module load torchvision/0.13.1
 module load PyTorch/1.12.1-CUDA-11.7.0
 
 WORKDIR=/scratch/tmp/lterfehr/BachelorThesisScripts/stdnet-test
