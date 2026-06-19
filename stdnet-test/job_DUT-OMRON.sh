@@ -16,9 +16,7 @@ module load GCC/11.3.0
 module load GCCcore/11.3.0
 module load Python/3.10.4
 module load CUDA/11.7.0
-module load OpenMPI/4.1.4
-module load torchvision/0.13.1
-module load PyTorch/1.12.0
+
 WORKDIR="/scratch/tmp/lterfehr/BachelorThesisScripts/stdnet-test"
 MODELDIR="/scratch/tmp/lterfehr/models/stdnet"
 DATADIR="/scratch/tmp/lterfehr/models/stdnet/data"
@@ -35,6 +33,8 @@ exp="sdneta_from_pretrained"
 
 cd "${MODELDIR}"
 
+nvidia-smi
+
 if [ -d "${VENV}" ]; then
     echo "=== Alte venv gefunden. Lösche Verzeichnis === "
     rm -rf "${VENV}"
@@ -49,6 +49,13 @@ pip install --quiet --upgrade pip
 pip install --quiet -r "${MODELDIR}/requirements.txt"
 
 echo "=== Setup der virtuellen Umgebung abgeschlossen ==="
+
+echo "=== Lösche Zielordner für Idempotenz ==="
+
+if [ -d "${OUTDIR}" ]; then
+    echo "=== ${OUTDIR} existiert bereits. Lösche es für Idempotenz ==="
+    rm -rf "${OUTDIR}"
+fi
 
 echo "=== Ordner an Ort und stelle kopieren ==="
 
