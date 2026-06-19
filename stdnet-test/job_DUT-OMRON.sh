@@ -8,7 +8,7 @@
 #SBATCH --job-name=ustdnet_on_dut_omron
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=lterfehr@uni-muenster.de
-#SBATCH --export=None
+#SBATCH --export=ALL
 
 module --force purge
 module load palma/2022a
@@ -61,7 +61,7 @@ cp -r "${GT}/." "${DATADIR}/${TESTDATA}/GT/"
 
 echo "=== Starte STDNet ... ==="
 
-python $MODELDIR/generate_salmaps_sod.py --model sdneta --inference-config baseline --train-config sdnet-a -j 4 --gpu 0 --datadir ${DATADIR} --testdata ${TESTDATA} --savedir results/${exp} --evaluate checkpoints/${exp}.pth --size ${size}
+python $MODELDIR/generate_salmaps_sod.py --model sdneta --inference-config baseline --train-config sdnet-a --bn --gpu 0 -j 4 --datadir ${DATADIR} --testdata ${TESTDATA} --savedir results/${exp} --evaluate checkpoints/${exp}.pth --size ${size}
 
 echo "=== Ergebnisse herunterladen ... ==="
 
