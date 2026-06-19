@@ -13,7 +13,7 @@
 module --force purge
 module load palma/2022a
 module load GCC/11.3.0
-module load GCCCore/11.3.0
+module load GCCcore/11.3.0
 module load Python/3.10.4
 module load CUDA/11.7.0
 module load PyTorch/1.12.1-CUDA-11.7.0
