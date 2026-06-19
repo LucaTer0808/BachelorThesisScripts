@@ -19,30 +19,58 @@ module load CUDA/11.7.0
 module load OpenMPI/4.1.4
 module load torchvision/0.13.1
 module load PyTorch/1.12.1-CUDA-11.7.0
+WORKDIR="/scratch/tmp/lterfehr/BachelorThesisScripts/stdnet-test"
+MODELDIR="/scratch/tmp/lterfehr/models/stdnet"
+DATADIR="/scratch/tmp/lterfehr/models/stdnet/data"
+TESTDATA="data"
+VENV="${MODELDIR}/.venv"
 
-WORKDIR=/scratch/tmp/lterfehr/BachelorThesisScripts/stdnet-test
-MODELDIR=/scratch/tmp/lterfehr/models/stdnet
-VENV=$MODELDIR/.venv
+SOURCE="/scratch/tmp/lterfehr/datasets/rgb/DUT-OMRON/DUT-OMRON-image"
+GT="/scratch/tmp/lterfehr/datasets/rgb/DUT-OMRON/pixelwiseGT-new-PNG"
 
-cd "$MODELDIR"
+OUTDIR="/scratch/tmp/lterfehr/model_results/stdnet/DUT-OMRON"
 
-if [ -d "$VENV" ]; then
+size=384
+exp="sdneta_from_pretrained"
+
+cd "${MODELDIR}"
+
+if [ -d "${VENV}" ]; then
     echo "=== Alte venv gefunden. Lösche Verzeichnis === "
-    rm -rf "$VENV"
+    rm -rf "${VENV}"
 fi
 
 echo "=== Erstelle venv komplett neu ==="
-python3 -m venv "$VENV"
-source "$VENV/bin/activate"
+python3 -m venv "${VENV}"
+source "${VENV}/bin/activate"
 
 echo "=== Installiere requirements.txt ==="
 pip install --quiet --upgrade pip
-pip install --quiet -r "$MODELDIR/requirements.txt"
+pip install --quiet -r "${MODELDIR}/requirements.txt"
 
 echo "=== Setup der virtuellen Umgebung abgeschlossen ==="
 
+echo "=== Ordner an Ort und stelle kopieren ==="
+
+rm -rf "${DATADIR}/${TESTDATA}"
+mkdir -p "${DATADIR}/${TESTDATA}/images"
+mkdir -p "${DATADIR}/${TESTDATA}/GT"
+
+cp -r "${SOURCE}/." "${DATADIR}/${TESTDATA}/images/"
+cp -r "${GT}/." "${DATADIR}/${TESTDATA}/GT/"
+
 echo "=== Starte STDNet ... ==="
 
-python $MODELDIR/generate_salmaps_flexible.py --source "/scratch/tmp/lterfehr/datasets/rgb/DUT-OMRON/DUT-OMRON-image" --target "/scratch/tmp/lterfehr/model_results/STDNet/DUT-OMRON"
+python $MODELDIR/generate_salmaps_sod.py --model sdneta --inference-config baseline --train-config sdnet-a -j 4 --gpu 0 --datadir ${DATADIR} --testdata ${TESTDATA} --savedir results/${exp} --evaluate checkpoints/${exp}.pth --size ${size}
+
+echo "=== Ergebnisse herunterladen ... ==="
+
+mkdir -p "${OUTDIR}"
+cp -r "${MODELDIR}/results/${exp}/${TESTDATA}/." "${OUTDIR}"
+
+echo "=== Bereinige directory ==="
+
+rm -rf "${DATADIR}/${TESTDATA}"
+rm -rf "${MODELDIR}/results/${exp}"
 
 echo "Job beendet: $(date)"
