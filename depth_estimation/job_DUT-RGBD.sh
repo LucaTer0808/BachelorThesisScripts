@@ -5,18 +5,25 @@
 #SBATCH --partition=gpuexpress
 #SBATCH --gres=gpu:1
 
-#SBATCH --job-name=depth_estimation_duts_te
+#SBATCH --job-name=dutrgbd_depth_estimation
+#SBATCH --output=dutrgbd_depth_estimation_%j.out
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=lterfehr@uni-muenster.de
 
 # --- MODULE LADEN ---
-module load palma/2023a
 module load palma/2023b
 module load GCCcore/13.2.0
 module load Python/3.11.5
-module load CUDA/12.1.1
+module load CUDA/12.4.0
 
-WORKDIR=/home/l/lterfehr/BachelorThesisScripts/depth_estimation
+SOURCE_TEST="/scratch/tmp/lterfehr/datasets/rgbd/DUT-RGBD/test_data/test_images"
+TARGET_TEST="/scratch/tmp/lterfehr/datasets/rgbd/DUT-RGBD_gen_depth/test_data/gen_depth"
+
+SOURCE_TRAIN="/scratch/tmp/lterfehr/datasets/rgbd/DUT-RGBD/train_data/train_images"
+TARGET_TRAIN="/scratch/tmp/lterfehr/datasets/rgbd/DUT-RGBD_gen_depth/train_data/gen_depth"
+
+WORKDIR=/scratch/tmp/lterfehr/BachelorThesisScripts/depth_estimation
+
 VENV=$WORKDIR/.venv_depth
 
 # --- LOG-ORDNER ANLEGEN ---
@@ -44,7 +51,22 @@ echo "Python: $(which python)"
 echo "CUDA verfügbar: $(python -c 'import torch; print(torch.cuda.is_available())')"
 echo "GPU: $(nvidia-smi --query-gpu=name --format=csv,noheader)"
 
+if [ -d "${TARGET_TEST}" ]; then
+    echo "${TARGET_TEST} exists already. Deleting it for idempotency"
+    rm -rf "${TARGET_TEST}"
+fi
+
+mkdir -p "${TARGET_TEST}"
+
+if [ -d "${TARGET_TRAIN}" ]; then
+    echo "${TARGET_TRAIN} exists already. Deleting it for idempotency"
+    rm -rf "${TARGET_TRAIN}"
+fi
+
+mkdir -p "${TARGET_TRAIN}"
+
 # --- SCRIPT AUSFÜHREN ---
-python $WORKDIR/generate_depth_maps.py --source "/scratch/tmp/lterfehr/datasets/rgbd/DUT-RGBD/test_data/test_images" --target "/scratch/tmp/lterfehr/datasets/rgbd/DUT-RGBD_gen_depth/test_data/gen_depth"
-python $WORKDIR/generate_depth_maps.py --source "/scratch/tmp/lterfehr/datasets/rgbd/DUT-RGBD/train_data/train_images" --target "/scratch/tmp/lterfehr/datasets/rgbd/DUT-RGBD_gen_depth/train_data/gen_depth"
+python $WORKDIR/generate_depth_maps.py --source "${SOURCE_TEST}" --target "${TARGET_TEST}"
+python $WORKDIR/generate_depth_maps.py --source "${SOURCE_TRAIN}" --target "${TARGET_TRAIN}"
+
 echo "Job beendet: $(date)"

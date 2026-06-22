@@ -16,6 +16,7 @@ module load GCCcore/13.2.0
 module load Python/3.11.5
 module load CUDA/12.4.0
 
+SOURCE="/scratch/tmp/lterfehr/datasets/rgbd/RGBD135/test_images"
 TARGET="/scratch/tmp/lterfehr/datasets/rgbd/RGBD135_gen_depth/gen_depth"
 WORKDIR=/scratch/tmp/lterfehr/BachelorThesisScripts/depth_estimation
 VENV=$WORKDIR/.venv_depth
@@ -53,6 +54,6 @@ fi
 mkdir -p "${TARGET}"
 
 # --- SCRIPT AUSFÜHREN ---
-python $WORKDIR/generate_depth_maps.py --source "/scratch/tmp/lterfehr/datasets/rgbd/RGBD135/test_images" --target "${TARGET}"
+python $WORKDIR/generate_depth_maps.py --source "${SOURCE}" --target "${TARGET}"
 
 echo "Job beendet: $(date)"

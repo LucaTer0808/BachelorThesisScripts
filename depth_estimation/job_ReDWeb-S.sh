@@ -16,8 +16,10 @@ module load GCCcore/13.2.0
 module load Python/3.11.5
 module load CUDA/12.4.0
 
+SOURCE="/scratch/tmp/lterfehr/datasets/rgbd/ReDWeb-S/testset/RGB"
 TARGET="/scratch/tmp/lterfehr/datasets/rgbd/ReDWeb-S_gen_depth/testset/gen_depth"
 WORKDIR=/scratch/tmp/lterfehr/BachelorThesisScripts/depth_estimation
+
 VENV=$WORKDIR/.venv_depth
 
 # --- LOG-ORDNER ANLEGEN ---
@@ -53,6 +55,6 @@ fi
 mkdir -p "${TARGET}"
 
 # --- SCRIPT AUSFÜHREN ---
-python $WORKDIR/generate_depth_maps.py --source "/scratch/tmp/lterfehr/datasets/rgbd/ReDWeb-S/testset/RGB" --target "${TARGET}"
+python $WORKDIR/generate_depth_maps.py --source "${SOURCE}" --target "${TARGET}"
 
 echo "Job beendet: $(date)"

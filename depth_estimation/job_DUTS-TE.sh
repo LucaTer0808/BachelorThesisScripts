@@ -5,18 +5,21 @@
 #SBATCH --partition=gpuexpress
 #SBATCH --gres=gpu:1
 
-#SBATCH --job-name=depth_estimation_duts_te
+#SBATCH --job-name=duts-te_depth_estimation
+#SBATCH --output=duts-te_depth_estimation_%j.out
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=lterfehr@uni-muenster.de
 
 # --- MODULE LADEN ---
-module load palma/2023a
 module load palma/2023b
 module load GCCcore/13.2.0
 module load Python/3.11.5
-module load CUDA/12.1.1
+module load CUDA/12.4.0
 
-WORKDIR=/home/l/lterfehr/BachelorThesisScripts/depth_estimation
+SOURCE="/scratch/tmp/lterfehr/datasets/rgb/DUTS/DUTS-TE/DUTS-TE-Image"
+TARGET="/scratch/tmp/lterfehr/datasets/rgbd/DUTS_gen_depth/DUTS-TE/gen_depth"
+WORKDIR=/scratch/tmp/lterfehr/BachelorThesisScripts/depth_estimation
+
 VENV=$WORKDIR/.venv_depth
 
 # --- LOG-ORDNER ANLEGEN ---
@@ -44,7 +47,16 @@ echo "Python: $(which python)"
 echo "CUDA verfügbar: $(python -c 'import torch; print(torch.cuda.is_available())')"
 echo "GPU: $(nvidia-smi --query-gpu=name --format=csv,noheader)"
 
+if [ -d "${TARGET}" ]; then
+    echo "${TARGET} exists already. Deleting it for idempotency"
+    rm -rf "${TARGET}"
+fi
+
+mkdir -p "${TARGET}"
+
 # --- SCRIPT AUSFÜHREN ---
-python $WORKDIR/generate_depth_maps.py --source "/scratch/tmp/lterfehr/datasets/rgb/DUTS/DUTS-TE/DUTS-TE-Image" --target "/scratch/tmp/lterfehr/datasets/rgbd/DUTS_gen_depth/DUTS-TE/gen_depth"
+python $WORKDIR/generate_depth_maps.py --source "${SOURCE}" --target "${TARGET}"
 
 echo "Job beendet: $(date)"
+
+
