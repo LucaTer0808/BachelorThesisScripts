@@ -18,8 +18,8 @@ module load GCCcore/11.2.0
 
 MODELDIR="/scratch/tmp/lterfehr/models/VST/RGB_VST"
 VENV="${MODELDIR}/.venv"
+SAVE_MODEL_DIR="${MODELDIR}/pretrained_model"
 
-SAVE_MODEL_DIR="/scratch/tmp/lterfehr/models/VST/pretrained_model"
 SOURCE="/scratch/tmp/lterfehr/datasets/rgb/DUT-OMRON/DUT-OMRON-image"
 TARGET="/scratch/tmp/lterfehr/model_results/RGB_VST/DUT-OMRON"
 
