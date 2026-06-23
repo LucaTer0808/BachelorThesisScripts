@@ -44,4 +44,6 @@ if [ -d "${TARGET}" ]; then
     rm -rf "${TARGET}"
 fi
 
+mkdir -p "${TARGER}"
+
 python ${WORKDIR}/train_test_eval.py --Testing --source="${SOURCE}" --target="${TARGET}" --save_model_dir="${SAVE_MODEL_DIR}"
