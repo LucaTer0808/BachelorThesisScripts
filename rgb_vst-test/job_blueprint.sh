@@ -5,7 +5,8 @@
 #SBATCH --partition=gpuexpress
 #SBATCH --gres=gpu:1
 
-#SBATCH --job-name=rgb_vst_blueprint
+#SBATCH --job-name=blueprint_rgb_vst
+#SBATCH --output=blueprint_rgb_vst_%j.out
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=lterfehr@uni-muenster.de
 #SBATCH --export=ALL
@@ -44,6 +45,11 @@ if [ -d "${TARGET}" ]; then
     rm -rf "${TARGET}"
 fi
 
-mkdir -p "${TARGER}"
+echo "=== Create ${TARGET} ==="
+mkdir -p "${TARGET}"
 
-python ${WORKDIR}/train_test_eval.py --Testing --source="${SOURCE}" --target="${TARGET}" --save_model_dir="${SAVE_MODEL_DIR}"
+
+echo "=== Starting VST RGB ==="
+python ${MODELDIR}/train_test_eval.py --Testing --source="${SOURCE}" --target="${TARGET}" --save_model_dir="${SAVE_MODEL_DIR}"
+
+echo "=== Job finished ==="
