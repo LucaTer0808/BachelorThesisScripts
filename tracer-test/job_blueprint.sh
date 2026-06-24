@@ -61,6 +61,6 @@ python ${MODELDIR}/main.py inference --dataset dataset/ --arch 1 --img_size 320 
 echo "=== Tracer finished ==="
 
 echo "=== Copy ${MODELDIR}/results/ to ${TARGET} ==="
-cp -r "${MODELDIR}/results/"* "${TARGET}"
+cp -r "${MODELDIR}/results/dataset/TE1_0/"* "${TARGET}"
 echo "=== Copy finished ==="
 
