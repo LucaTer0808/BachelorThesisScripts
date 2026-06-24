@@ -43,13 +43,25 @@ if [ -d "${TARGET}" ]; then
     rm -rf "${TARGET}"
 fi
 
+if [ ! -d ${MODELDIR}/data/dataset ]; then
+    echo "=== ${MODELDIR}/data/dataset does not exist. Create it ==="
+    mkdir -p "${MODELDIR}/data/dataset"
+    echo "=== ${MODELDIR}/data/dataset created ==="
+fi
+
+if [ ! -d ${MODELDIR}/results/dataset/TE1_0 ]; then
+    echo "=== ${MODELDIR}/results/dataset/TE1_0 does not exist. Create it ==="
+    mkdir -p "${MODELDIR}/results/dataset/TE1_0"
+    echo "=== ${MODELDIR}/results/dataset/TE1_0 created ==="
+fi
+
 echo "=== Create ${TARGET} ==="
 mkdir -p "${TARGET}"
 echo "=== ${TARGET} created ==="
 
 echo "=== Clear Workspace ==="
 rm -rf "${MODELDIR}/data/dataset/*"
-rm -rf "${MODELDIR}/results/*"
+rm -rf "${MODELDIR}/results/dataset/TE1_0/*"
 echo "=== Workspace cleared ==="
 
 echo "=== Copy ${SOURCE} to ${MODELDIR}/data/dataset/ ==="
