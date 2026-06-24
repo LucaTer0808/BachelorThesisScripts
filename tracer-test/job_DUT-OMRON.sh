@@ -6,7 +6,7 @@
 #SBATCH --gres=gpu:1
 
 #SBATCH --job-name=dut_omron_tracer
-#SBATCH --output=dut_omron_tracer_%j.out
+#SBATCH --output=outs/dut_omron_tracer_%j.out
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=lterfehr@uni-muenster.de
 #SBATCH --export=ALL

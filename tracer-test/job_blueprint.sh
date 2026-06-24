@@ -6,7 +6,7 @@
 #SBATCH --gres=gpu:1
 
 #SBATCH --job-name=blueprint_tracer
-#SBATCH --output=blueprint_tracer_%j.out
+#SBATCH --output=outs/blueprint_tracer_%j.out
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=lterfehr@uni-muenster.de
 #SBATCH --export=ALL
