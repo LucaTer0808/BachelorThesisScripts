@@ -43,13 +43,25 @@ if [ -d "${TARGET}" ]; then
     rm -rf "${TARGET}"
 fi
 
+if [ ! -d ${MODELDIR}/data/dataset ]; then
+    echo "=== ${MODELDIR}/data/dataset does not exist. Create it ==="
+    mkdir -p "${MODELDIR}/data/dataset"
+    echo "=== ${MODELDIR}/data/dataset created ==="
+fi
+
+if [ ! -d ${MODELDIR}/mask/dataset ]; then
+    echo "=== ${MODELDIR}/mask/dataset does not exist. Create it ==="
+    mkdir -p "${MODELDIR}/mask/dataset"
+    echo "=== ${MODELDIR}/mask/dataset created ==="
+fi
+
 echo "=== Create ${TARGET} ==="
 mkdir -p "${TARGET}"
 echo "=== ${TARGET} created ==="
 
 echo "=== Clear Workspace ==="
-rm -rf "${MODELDIR}/data/dataset/*"
-rm -rf "${MODELDIR}/results/*"
+rm -rf "${MODELDIR}/data/dataset/"*
+rm -rf "${MODELDIR}/mask/dataset/"*
 echo "=== Workspace cleared ==="
 
 echo "=== Copy ${SOURCE} to ${MODELDIR}/data/dataset/ ==="
@@ -60,7 +72,7 @@ echo "=== Starting TRACER ==="
 python ${MODELDIR}/main.py inference --dataset dataset/ --arch 1 --img_size 320 --save_map True
 echo "=== Tracer finished ==="
 
-echo "=== Copy ${MODELDIR}/results/ to ${TARGET} ==="
-cp -r "${MODELDIR}/results/dataset/TE1_0/"* "${TARGET}"
+echo "=== Copy ${MODELDIR}/mask/dataset/* to ${TARGET} ==="
+cp -r "${MODELDIR}/mask/dataset/"* "${TARGET}"
 echo "=== Copy finished ==="
 
