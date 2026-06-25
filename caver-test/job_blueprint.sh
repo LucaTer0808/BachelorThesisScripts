@@ -63,5 +63,5 @@ cp -r "/scratch/tmp/lterfehr/parameters/CAVER/caver-r101d-rgbd-njudnlprdutrgbd.p
 echo "=== Copy finished ==="
 
 echo "=== Starting CAVER ==="
-python ${MODELDIR}/main.py --config ./configs/rgbd-all-datasets.py --model-name CAVER-R101D --info rgbt --load-from ./pretrained/caver-r101d-rgbd-njudnlprdutrgbd.pt --evaluate --show-bar
+python ${MODELDIR}/main.py --config ./configs/rgbd-all-datasets.py --model-name CAVER_R101D --info rgbt --load-from ./pretrained/caver-r101d-rgbd-njudnlprdutrgbd.pt --evaluate --show-bar
 echo "=== CAVER finished ==="
