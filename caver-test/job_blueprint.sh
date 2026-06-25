@@ -19,7 +19,7 @@ module load CUDA/11.6.0
 module load Python/3.9.6
 
 MODELDIR="/scratch/tmp/lterfehr/models/CAVER"
-OUTPUTS="${MODELDIR}/outputs"
+OUTPUTS="${MODELDIR}/output"
 PRETRAINED="${MODELDIR}/pretrained"
 
 VENV="${MODELDIR}/.venv"
