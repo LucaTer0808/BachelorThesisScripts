@@ -34,6 +34,8 @@ execute_model() {
     echo "=== GT Pfad: ${gt} ==="
     echo "=== Target Pfad: ${target} ==="
 
+    cd "${MODELDIR}"
+
     if [ -d "${VENV}" ]; then
         echo "=== Alte venv gefunden. Lösche Verzeichnis === "
         rm -rf "${VENV}"
