@@ -34,23 +34,6 @@ execute_model() {
     echo "=== GT Pfad: ${gt} ==="
     echo "=== Target Pfad: ${target} ==="
 
-    cd "${MODELDIR}"
-
-    if [ -d "${VENV}" ]; then
-        echo "=== Alte venv gefunden. Lösche Verzeichnis === "
-        rm -rf "${VENV}"
-    fi
-
-    echo "=== Erstelle venv komplett neu ==="
-    python -m venv "${VENV}"
-    source "${VENV}/bin/activate"
-    echo "=== venv aktiviert ==="
-
-    echo "=== Installiere requirements.txt ==="
-    pip install --quiet --upgrade pip
-    pip install --quiet -r "${MODELDIR}/requirements.txt"
-    echo "=== requirements.txt installiert ==="
-
     if [ -d "${target}" ]; then
         echo "${target} already exists. Removing it ."
         rm -rf "${target}"
@@ -174,6 +157,23 @@ TARGET=(
 )
 
 COUNT="${#RGB[@]}"
+
+cd "${MODELDIR}"
+
+if [ -d "${VENV}" ]; then
+    echo "=== Alte venv gefunden. Lösche Verzeichnis === "
+    rm -rf "${VENV}"
+fi
+
+echo "=== Erstelle venv komplett neu ==="
+python -m venv "${VENV}"
+source "${VENV}/bin/activate"
+echo "=== venv aktiviert ==="
+
+echo "=== Installiere requirements.txt ==="
+pip install --quiet --upgrade pip
+pip install --quiet -r "${MODELDIR}/requirements.txt"
+echo "=== requirements.txt installiert ==="
 
 mkdir -p "/scratch/tmp/lterfehr/BachelorThesisScripts/spnet-test/outs/" # for the output files
 
