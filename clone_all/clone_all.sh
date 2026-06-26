@@ -10,3 +10,5 @@ git clone git@github.com:LucaTer0808/TRACER.git
 git clone git@github.com:LucaTer0808/U-2-Net.git
 git clone git@github.com:LucaTer0808/VST.git
 git clone git@github.com:LucaTer0808/XMSNet.git
+git clone git@github.com:LucaTer0808/SPNet.git
+git clone git@github.com:LucaTer0808/SwinNet.git
