@@ -18,7 +18,7 @@ module load GCCcore/11.2.0
 module load Python/3.9.6
 module load CUDA/11.6.0
 
-MODELDIR="/scratch/tmp/lterfehr/models/SPNET"
+MODELDIR="/scratch/tmp/lterfehr/models/SPNet"
 VENV="${MODELDIR}/.venv"
 
 TARGET_BASE="/scratch/tmp/lterfehr/model_results/SPNet"
