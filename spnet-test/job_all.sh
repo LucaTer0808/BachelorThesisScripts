@@ -4,6 +4,7 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --partition=gpuexpress
 #SBATCH --gres=gpu:1
+#SBATCH --time=01:00:00
 
 #SBATCH --job-name=blueprint_spnet
 #SBATCH --output=outs/blueprint_spnet_%j.out
