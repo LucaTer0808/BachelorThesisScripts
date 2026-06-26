@@ -4,10 +4,10 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --partition=gpuexpress
 #SBATCH --gres=gpu:1
-#SBATCH --time=01:00:00
+#SBATCH --time=10:00:00
 
-#SBATCH --job-name=blueprint_spnet
-#SBATCH --output=outs/blueprint_spnet_%j.out
+#SBATCH --job-name=spnet
+#SBATCH --output=outs/spnet_%j.out
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=lterfehr@uni-muenster.de
 #SBATCH --export=ALL
@@ -35,13 +35,10 @@ execute_model() {
     echo "=== Target Pfad: ${target} ==="
 
     if [ -d "${target}" ]; then
-        echo "${target} already exists. Removing it ."
         rm -rf "${target}"
     fi
 
-    echo "=== Create ${target} ==="
     mkdir -p "${target}"
-    echo "=== ${target} created ==="
 
     echo "=== Starte SPNet ==="
     python "${MODELDIR}"/test_produce_maps.py --rgb "${rgb}" --depth "${depth}" --gt "${gt}" --target "${target}"
@@ -161,19 +158,14 @@ COUNT="${#RGB[@]}"
 cd "${MODELDIR}"
 
 if [ -d "${VENV}" ]; then
-    echo "=== Alte venv gefunden. Lösche Verzeichnis === "
     rm -rf "${VENV}"
 fi
 
-echo "=== Erstelle venv komplett neu ==="
 python -m venv "${VENV}"
 source "${VENV}/bin/activate"
-echo "=== venv aktiviert ==="
 
-echo "=== Installiere requirements.txt ==="
 pip install --quiet --upgrade pip
 pip install --quiet -r "${MODELDIR}/requirements.txt"
-echo "=== requirements.txt installiert ==="
 
 mkdir -p "/scratch/tmp/lterfehr/BachelorThesisScripts/spnet-test/outs/" # for the output files
 
