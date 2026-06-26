@@ -172,7 +172,7 @@ TARGET=(
 
 COUNT="${#RGB[@]}"
 
-mkdir -p 
+mkdir -p "/scratch/tmp/lterfehr/BachelorThesisScripts/spnet-test/outs/" # for the output files
 
 for ((i=0; i<COUNT; i++)); do
     echo "=== Starte SPNet für Dataset $((i + 1)) von ${COUNT} ==="
