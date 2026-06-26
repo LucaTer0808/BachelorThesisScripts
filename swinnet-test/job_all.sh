@@ -20,8 +20,10 @@ module load CUDA/11.6.0
 
 MODELDIR="/scratch/tmp/lterfehr/models/SwinNet"
 VENV="${MODELDIR}/.venv"
+TARGET_BASE="/scratch/tmp/lterfehr/model_results/SwinNet"
 
-source "../rgbd_datasets.sh"
+
+source "/scratch/tmp/lterfehr/BachelorThesisScripts/rgbd_datasets.sh"
 
 execute_model() {
     local rgb="$1"
@@ -54,8 +56,6 @@ source "${VENV}/bin/activate"
 
 pip install --quiet --upgrade pip
 pip install --quiet -r "${MODELDIR}/requirements.txt"
-
-mkdir -p "/scratch/tmp/lterfehr/BachelorThesisScripts/swinnet-test/outs/" # for the output files
 
 for ((i=0; i<COUNT; i++)); do
     echo "=== Starte SwinNet für Dataset $((i + 1)) von ${COUNT} ==="

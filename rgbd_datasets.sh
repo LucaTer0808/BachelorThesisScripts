@@ -1,5 +1,3 @@
-TARGET_BASE="/scratch/tmp/lterfehr/model_results/SwinNet"
-
 RGB=(
     "/scratch/tmp/lterfehr/datasets/rgbd/DUT-OMRON_gen_depth/DUT-OMRON-image/"
     "/scratch/tmp/lterfehr/datasets/rgbd/DUTS_gen_depth/DUTS-TE/DUTS-TE-Image/"
