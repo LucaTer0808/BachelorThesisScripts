@@ -6,8 +6,8 @@
 #SBATCH --gres=gpu:1
 #SBATCH --time=10:00:00
 
-#SBATCH --job-name=ctifnet
-#SBATCH --output=outs/ctifnet_%j.out
+#SBATCH --job-name=f3net
+#SBATCH --output=outs/f3net_%j.out
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=lterfehr@uni-muenster.de
 #SBATCH --export=ALL
