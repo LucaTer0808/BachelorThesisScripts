@@ -18,6 +18,8 @@ module load GCCcore/11.2.0
 module load Python/3.9.6
 module load CUDA/11.6.0
 
+nvidia-smi
+
 MODELDIR="/scratch/tmp/lterfehr/models/F3Net"
 VENV="${MODELDIR}/.venv"
 
