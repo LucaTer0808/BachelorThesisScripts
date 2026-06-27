@@ -12,3 +12,4 @@ git clone git@github.com:LucaTer0808/VST.git
 git clone git@github.com:LucaTer0808/XMSNet.git
 git clone git@github.com:LucaTer0808/SPNet.git
 git clone git@github.com:LucaTer0808/SwinNet.git
+git clone git@github.com:LucaTer0808/CTIF-Net.git
