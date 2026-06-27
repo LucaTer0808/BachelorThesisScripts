@@ -18,30 +18,11 @@ module load GCCcore/11.2.0
 module load Python/3.9.6
 module load CUDA/11.6.0
 
-MODELDIR="/scratch/tmp/lterfehr/models/CTIF-Net"
+MODELDIR="/scratch/tmp/lterfehr/models/F3Net"
 VENV="${MODELDIR}/.venv"
 
-TARGET_BASE="/scratch/tmp/lterfehr/model_results/CTIF-Net"
+TARGET_BASE="/scratch/tmp/lterfehr/model_results/F3Net"
 
-execute_model() {
-    local rgb="$1"
-    local gt="$2"
-    local target="$3"
-
-    echo "=== RGB Pfad: ${rgb} ==="
-    echo "=== GT Pfad: ${gt} ==="
-    echo "=== Target Pfad: ${target} ==="
-
-    if [ -d "${target}" ]; then
-        rm -rf "${target}"
-    fi
-
-    mkdir -p "${target}"
-
-    echo "=== Starte CTIF-Net ==="
-    python "${MODELDIR}"/test.py --source "${rgb}" --gt "${gt}" --target "${target}"
-    echo "=== CTIF-Net beendet  --> $(date) ==="
-}
 
 RGB=(
     "/scratch/tmp/lterfehr/datasets/rgb/DUT-OMRON/DUT-OMRON-image/"
@@ -59,7 +40,6 @@ RGB=(
     "/scratch/tmp/lterfehr/datasets/rgb/SSD_no_depth/test_images/"
     "/scratch/tmp/lterfehr/datasets/rgb/STERE_no_depth/test_images/"
     )
-
 
 GT=(
     "/scratch/tmp/lterfehr/datasets/rgb/DUT-OMRON/pixelwiseGT-new-PNG/"
@@ -110,11 +90,25 @@ pip install --quiet --upgrade pip
 pip install --quiet -r "${MODELDIR}/requirements.txt"
 
 for ((i=0; i<COUNT; i++)); do
-    echo "=== Starte CTIF-Net für Dataset $((i + 1)) von ${COUNT} ==="
-    execute_model "${RGB[i]}" "${GT[i]}" "${TARGET[i]}"
-    echo "=== CTIF-Net für Dataset $((i + 1)) von ${COUNT} beendet ==="
+    rm -rf "${MODELDIR}"/data/dataset/image/*
+    rm -rf "${MODELDIR}"/data/dataset/mask/*
+
+    cp ${RGB[i]}/* "${MODELDIR}"/data/dataset/image
+    cp ${GT[i]}/* "${MODELDIR}"/data/dataset/mask
+
+    echo "=== Starte F3Net für Dataset $((i + 1)) von ${COUNT} ==="
+    python "${MODELDIR}"/src/test.py
+    echo "=== F3Net für Dataset $((i + 1)) von ${COUNT} beendet ==="
+
+    echo "=== Moving result images ==="
+    if [ -d ${TARGET[i]} ]; then
+        echo "${TARGET[i]} already exists. Removing it and creating a new one."
+        rm -rf "${TARGET[i]}"
+    fi
+
+    mkdir -p "${TARGET[i]}"
+
+    mv "${MODELDIR}"/eval/maps/F3Net/dataset/image/* "${TARGET[i]}"
 done
 
-echo "=== Alle CTIF-Net-Durchläufe abgeschlossen ==="
-
-
+echo "=== Alle F3Net-Durchläufe abgeschlossen ==="
