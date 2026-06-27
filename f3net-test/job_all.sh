@@ -92,6 +92,7 @@ pip install --quiet --upgrade pip
 pip install --quiet -r "${MODELDIR}/requirements.txt"
 
 for ((i=0; i<COUNT; i++)); do
+    rm -rf "${MODELDIR}"/eval/maps/F3Net/dataset/*
     rm -rf "${MODELDIR}"/data/dataset/image/*
     rm -rf "${MODELDIR}"/data/dataset/mask/*
 
@@ -110,7 +111,7 @@ for ((i=0; i<COUNT; i++)); do
 
     mkdir -p "${TARGET[i]}"
 
-    mv "${MODELDIR}"/eval/maps/F3Net/dataset/image/* "${TARGET[i]}"
+    mv "${MODELDIR}"/eval/maps/F3Net/dataset/* "${TARGET[i]}"
 done
 
 echo "=== Alle F3Net-Durchläufe abgeschlossen ==="
