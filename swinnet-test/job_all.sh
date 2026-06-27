@@ -22,8 +22,6 @@ MODELDIR="/scratch/tmp/lterfehr/models/SwinNet"
 VENV="${MODELDIR}/.venv"
 TARGET_BASE="/scratch/tmp/lterfehr/model_results/SwinNet"
 
-nvidia-smi
-
 source "/scratch/tmp/lterfehr/BachelorThesisScripts/rgbd_datasets.sh"
 
 execute_model() {
