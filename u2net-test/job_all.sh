@@ -20,7 +20,6 @@ bash job_HKU-IS.sh
 bash job_LFSD_no_depth.sh
 bash job_NJUD_no_depth.sh
 bash job_NLPR_no_depth.sh
-bash job_PASCAL-S.sh
 bash job_ReDWeb-S_no_depth.sh
 bash job_RGBD135_no_depth.sh
 bash job_SIP_no_depth.sh
