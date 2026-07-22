@@ -32,7 +32,7 @@ pip install --quiet -r "/scratch/tmp/lterfehr/BachelorThesisScripts/check_valid_
 
 for ((j=0;j<${BASES_COUNT};j++)); do
     echo "=== Model $((j + 1)) von ${BASES_COUNT} ==="
-    export TARGET_BASE="${TARGET_BASES[j]}"
+    export TARGET_BASE="${RGB_TARGET_BASES[j]}"
 
     source "/scratch/tmp/lterfehr/BachelorThesisScripts/rgb_datasets.sh"
 
