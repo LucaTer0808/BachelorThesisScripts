@@ -5,8 +5,6 @@ from PIL import Image
 parser = argparse.ArgumentParser()
 parser.add_argument("--gt", type=str)
 parser.add_argument("--target", type=str)
-parser.add_argument("--depth", type=str, default=None)
-parser.add_argument("--rgbd", action="store_true")
 
 args = parser.parse_args()
 gt_folder = args.gt
