@@ -18,8 +18,6 @@ module load GCCcore/13.2.0
 module load Python/3.11.5
 
 VENV="/scratch/tmp/lterfehr/BachelorThesisScripts/check_valid_size/.venv"
-
-source "/scratch/tmp/lterfehr/BachelorThesisScripts/rgb_datasets.sh"
 source "/scratch/tmp/lterfehr/BachelorThesisScripts/target_bases.sh"
 
 if [ -d "${VENV}" ]; then
@@ -32,11 +30,11 @@ source "${VENV}/bin/activate"
 pip install --quiet --upgrade pip
 pip install --quiet -r "/scratch/tmp/lterfehr/BachelorThesisScripts/check_valid_size/requirements.txt"
 
-echo "=== Found ${BASES_COUNT} models ==="
-
 for ((j=0;j<${BASES_COUNT};j++)); do
     echo "=== Model $((j + 1)) von ${BASES_COUNT} ==="
     export TARGET_BASE="${TARGET_BASES[j]}"
+
+    source "/scratch/tmp/lterfehr/BachelorThesisScripts/rgb_datasets.sh"
 
     for ((i=0; i<${COUNT}; i++)); do
 
