@@ -20,8 +20,8 @@ MODELDIR="/scratch/tmp/lterfehr/models/VST/RGB_VST"
 VENV="${MODELDIR}/.venv"
 SAVE_MODEL_DIR="${MODELDIR}/pretrained_model"
 
-SOURCE="/scratch/tmp/lterfehr/datasets/rgb/LFSD_no_depth/test_images"
-TARGET="/scratch/tmp/lterfehr/model_results/RGB_VST/LFSD_no_depth"
+SOURCE="/scratch/tmp/lterfehr/datasets/rgb/NLPR_no_depth/test_data"
+TARGET="/scratch/tmp/lterfehr/model_results/RGB_VST/NLPR_no_depth"
 
 cd "${MODELDIR}"
 
