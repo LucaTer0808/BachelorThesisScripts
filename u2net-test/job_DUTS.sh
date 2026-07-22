@@ -39,6 +39,6 @@ echo "=== Setup der virtuellen Umgebung abgeschlossen ==="
 
 echo "Starte U2-Net ..."
 
-python $MODELDIR/u2net_test.py --source "/scratch/tmp/lterfehr/datasets/rgb/DUTS/DUTS-TE/DUTS-TE-Image" --target "/scratch/tmp/lterfehr/model_results/U-2-Net/DUTS/DUTS-TE"
+python $MODELDIR/u2net_test.py --source "/scratch/tmp/lterfehr/datasets/rgb/DUTS/DUTS-TE/DUTS-TE-Image" --target "/scratch/tmp/lterfehr/model_results/U-2-Net/DUTS"
 
 echo "Job beendet: $(date)"

@@ -34,8 +34,8 @@ GT=(
 
 TARGET=(
     "${TARGET_BASE}/DUT-OMRON/"
-    "${TARGET_BASE}/DUTS/DUTS-TE/"
-    "${TARGET_BASE}/HKU-IS/test/"
+    "${TARGET_BASE}/DUTS/"
+    "${TARGET_BASE}/HKU-IS/"
     "${TARGET_BASE}/NJUD_no_depth/"
     "${TARGET_BASE}/RGBD135_no_depth/"
     "${TARGET_BASE}/SIP_no_depth/"
