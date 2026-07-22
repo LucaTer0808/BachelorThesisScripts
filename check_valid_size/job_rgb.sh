@@ -41,7 +41,10 @@ for ((j=0;j<${BASES_COUNT};j++)); do
         echo "=== Dataset $((i + 1)) von ${COUNT} ==="
         echo "=== GT Pfad: ${GT[i]} ==="
         echo "=== Target Pfad: ${TARGET[i]} ==="
+        echo "\n"
 
         python check_valid_size.py --gt "${GT[i]}" --target "${TARGET[i]}"
     done
+
+    echo "\n"
 done
