@@ -5,7 +5,7 @@
 #SBATCH --partition=gpuexpress
 #SBATCH --gres=gpu:1
 
-#SBATCH --job-name=u2net_on_lfsd_gen_depth
+#SBATCH --job-name=u2net_on_lfsd_no_depth
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=lterfehr@uni-muenster.de
 #SBATCH --export=None
