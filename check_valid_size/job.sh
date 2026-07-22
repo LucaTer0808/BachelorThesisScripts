@@ -1,0 +1,1 @@
+source "/scratch/tmp/lterfehr/BachelorThesisScripts/rgb_datasets.sh"
