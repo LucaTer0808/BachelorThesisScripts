@@ -31,7 +31,7 @@ source "${VENV}/bin/activate"
 pip install --quiet --upgrade pip
 pip install --quiet -r "/scratch/tmp/lterfehr/BachelorThesisScripts/check_valid_size/requirements.txt"
 
-for ((i=0, i<COUNT; i++)); do
+for ((i=0; i<COUNT; i++)); do
     echo "=== Dataset $((i + 1)) von ${COUNT} ==="
     echo "=== GT Pfad: ${GT[i]} ==="
     echo "=== Target Pfad: ${TARGET[i]} ==="
