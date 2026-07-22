@@ -46,3 +46,4 @@ for ((i=0;i<${BASES_COUNT};i++)); do
 
         python check_valid_size.py --gt "${GT[i]}" --target "${TARGET[i]}"
     done
+done
