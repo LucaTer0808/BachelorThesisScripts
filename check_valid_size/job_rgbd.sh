@@ -19,6 +19,7 @@ module load Python/3.11.5
 
 VENV="/scratch/tmp/lterfehr/BachelorThesisScripts/check_valid_size/.venv"
 
+export TARGET_BASE="/scratch/tmp/lterfehr/model_results"
 source "/scratch/tmp/lterfehr/BachelorThesisScripts/rgbd_datasets.sh"
 
 if [ -d "${VENV}" ]; then
