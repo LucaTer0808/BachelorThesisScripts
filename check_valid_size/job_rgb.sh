@@ -19,8 +19,8 @@ module load Python/3.11.5
 
 VENV="/scratch/tmp/lterfehr/BachelorThesisScripts/check_valid_size/.venv"
 
-export TARGET_BASE="/scratch/tmp/lterfehr/model_results"
 source "/scratch/tmp/lterfehr/BachelorThesisScripts/rgb_datasets.sh"
+source "/scratch/tmp/lterfehr/BachelorThesisScripts/target_bases.sh"
 
 if [ -d "${VENV}" ]; then
     rm -rf "${VENV}"
@@ -32,12 +32,17 @@ source "${VENV}/bin/activate"
 pip install --quiet --upgrade pip
 pip install --quiet -r "/scratch/tmp/lterfehr/BachelorThesisScripts/check_valid_size/requirements.txt"
 
-echo "=== Found ${COUNT} datasets ==="
+echo "=== Found ${BASES_COUNT} models ==="
 
-for ((i=0; i<${COUNT}; i++)); do
-    echo "=== Dataset $((i + 1)) von ${COUNT} ==="
-    echo "=== GT Pfad: ${GT[i]} ==="
-    echo "=== Target Pfad: ${TARGET[i]} ==="
+for ((i=0;i<${BASES_COUNT};i++)); do
+    echo "=== Model $((i + 1)) von ${BASES_COUNT} ==="
+    export TARGET_BASE="${TARGET_BASES[i]}"
 
-    python check_valid_size.py --gt "${GT[i]}" --target "${TARGET[i]}"
-done
+    for ((i=0; i<${COUNT}; i++)); do
+
+        echo "=== Dataset $((i + 1)) von ${COUNT} ==="
+        echo "=== GT Pfad: ${GT[i]} ==="
+        echo "=== Target Pfad: ${TARGET[i]} ==="
+
+        python check_valid_size.py --gt "${GT[i]}" --target "${TARGET[i]}"
+    done
