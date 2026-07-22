@@ -34,9 +34,9 @@ pip install --quiet -r "/scratch/tmp/lterfehr/BachelorThesisScripts/check_valid_
 
 echo "=== Found ${BASES_COUNT} models ==="
 
-for ((i=0;i<${BASES_COUNT};i++)); do
-    echo "=== Model $((i + 1)) von ${BASES_COUNT} ==="
-    export TARGET_BASE="${TARGET_BASES[i]}"
+for ((j=0;j<${BASES_COUNT};j++)); do
+    echo "=== Model $((j + 1)) von ${BASES_COUNT} ==="
+    export TARGET_BASE="${TARGET_BASES[j]}"
 
     for ((i=0; i<${COUNT}; i++)); do
 
