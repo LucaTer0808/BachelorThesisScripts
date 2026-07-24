@@ -90,7 +90,7 @@ DEPTH=(
     "/scratch/tmp/lterfehr/datasets/rgbd/SSD_gen_depth/gen_depth/"
     "/scratch/tmp/lterfehr/datasets/rgbd/STEREO_gen_depth/gen_depth/"
     "/scratch/tmp/lterfehr/datasets/rgbd/DUT-RGBD_gen_depth/test_data/gen_depth/"
-    "/scratch/tmp/lterfehr/datasets/rgbd/HKU-IS_gen_depth/gen_depth/"
+    "/scratch/tmp/lterfehr/datasets/rgbd/HKU-IS_gen_depth/test_gen_depth/"
     "/scratch/tmp/lterfehr/datasets/rgbd/NJUD/test_data/test_depth/"
     "/scratch/tmp/lterfehr/datasets/rgbd/NLPR_gen_depth/test_data/gen_depth/"
     "/scratch/tmp/lterfehr/datasets/rgbd/ReDWeb-S/testset/depth/"
