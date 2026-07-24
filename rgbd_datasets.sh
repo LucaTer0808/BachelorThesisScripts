@@ -98,7 +98,7 @@ TARGET=(
     "${TARGET_BASE}/STEREO_gen_depth/"
     "${TARGET_BASE}/DUT-RGBD_gen_depth/"
     "${TARGET_BASE}/HKU-IS_gen_depth/"
-    "${TARGET_BASE}/NJUD"
+    "${TARGET_BASE}/NJUD/"
     "${TARGET_BASE}/NLPR_gen_depth/"
     "${TARGET_BASE}/ReDWeb-S/"
     "${TARGET_BASE}/SIP_gen_depth/"
