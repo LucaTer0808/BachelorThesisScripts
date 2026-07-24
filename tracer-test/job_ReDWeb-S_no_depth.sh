@@ -2,7 +2,7 @@
 #SBATCH --nodes=1
 #SBATCH --tasks-per-node=1
 #SBATCH --cpus-per-task=4
-#SBATCH --partition=gpuexpress
+#SBATCH --partition=gpu2080
 #SBATCH --gres=gpu:1
 
 #SBATCH --job-name=redweb_s_no_depth_tracer
@@ -20,7 +20,7 @@ MODELDIR="/scratch/tmp/lterfehr/models/TRACER"
 VENV="${MODELDIR}/.venv"
 
 SOURCE="/scratch/tmp/lterfehr/datasets/rgb/ReDWeb-S_no_depth/testset/RGB"
-TARGET="/scratch/tmp/lterfehr/model_results/TRACER/ReDWeb-S"
+TARGET="/scratch/tmp/lterfehr/model_results/TRACER/ReDWeb-S_no_depth"
 
 cd "${MODELDIR}"
 
