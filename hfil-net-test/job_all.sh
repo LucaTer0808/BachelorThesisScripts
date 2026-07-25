@@ -4,6 +4,7 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --partition=gpu2080
 #SBATCH --gres=gpu:1
+#SBATCH --time=10:00:00
 
 #SBATCH --job-name=hfil_net
 #SBATCH --output=outs/hfil_net_%j.out
