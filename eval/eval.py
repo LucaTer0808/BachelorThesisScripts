@@ -103,7 +103,7 @@ pr_curve_data = {
     "Recall": recalls,
 }
 df_pr = pd.DataFrame(pr_curve_data)
-pr_csv_path = os.path.join(args.pred, "pr_curve_data.csv")
+pr_csv_path = os.path.join(args.pred, "prcurve.csv")
 df_pr.to_csv(pr_csv_path, index=False, sep=";")
 
 print(f"[INFO] PR-Kurvendaten gespeichert unter:\n{pr_csv_path}")
