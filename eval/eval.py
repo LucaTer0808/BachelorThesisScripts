@@ -4,6 +4,9 @@ import pandas as pd
 from py_sod_metrics import Emeasure, Fmeasure, MAE, Smeasure, WeightedFmeasure
 from tqdm import tqdm
 import cv2
+import warnings
+
+warnings.filterwarnings("ignore")
 
 parser = argparse.ArgumentParser(description="Evaluate a model on a dataset.")
 parser.add_argument("--gt", type=str, required=True, help="Path to the ground truth file.")
@@ -27,13 +30,12 @@ if not pred_files:
     raise ValueError("No prediction files found in the specified directory.")
 
 pred_dict = {os.path.splitext(f)[0]: f for f in pred_files}
-print(f"Found {len(gt_files)} ground truth files and {len(pred_files)} prediction files.")
 
 for gt_file in tqdm(gt_files):
     base_name = os.path.splitext(gt_file)[0]
 
     if base_name not in pred_dict:
-        print(f"Ground truth file {gt_file} has no corresponding prediction file.")
+        raise ValueError(f"Prediction for ground truth file '{gt_file}' not found in the predictions directory.")
         continue
 
     gt_path = os.path.join(args.gt, gt_file)
@@ -43,7 +45,6 @@ for gt_file in tqdm(gt_files):
     pred_img = cv2.imread(pred_path, cv2.IMREAD_GRAYSCALE)
 
     if gt_img.shape != pred_img.shape:
-        print(f"Shape mismatch for {gt_file}: ground truth shape {gt_img.shape}, prediction shape {pred_img.shape}. Resizing prediction to match ground truth.")
         pred_img = cv2.resize(pred_img, (gt_img.shape[1], gt_img.shape[0]), interpolation=cv2.INTER_LINEAR)
 
     eval_f.step(pred_img, gt_img)
@@ -87,9 +88,6 @@ if os.path.exists(output_csv_path):
 
 df_summary.to_csv(output_csv_path, index=False, sep=";")
 
-print(f"\n[INFO] Ergebnisse wurden gespeichert unter:\n{output_csv_path}")
-
-
 pr_curve_data = {
     "Threshold": list(range(256)),
     "Precision": precisions,
@@ -102,5 +100,3 @@ if os.path.exists(pr_csv_path):
     os.remove(pr_csv_path)
 
 df_pr.to_csv(pr_csv_path, index=False, sep=";")
-
-print(f"[INFO] PR-Kurvendaten gespeichert unter:\n{pr_csv_path}")
