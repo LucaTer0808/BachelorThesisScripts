@@ -70,10 +70,12 @@ precisions = res_f['pr']['p']
 recalls = res_f['pr']['r']
 
 parts = [p for p in args.pred.split('/') if p]
+gt_parts = [p for p in args.gt.split('/') if p]
 
 results_summary = {
     "Model": [parts[4]],
     "Dataset": [parts[5]],
+    "RGB or RGBD": [gt_parts[4]],
     "Sm": [round(sm, 4)],
     "maxFm": [round(max_fm, 4)],
     "adpFm": [round(adp_fm, 4)],
