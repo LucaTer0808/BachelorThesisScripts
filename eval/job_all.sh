@@ -13,50 +13,43 @@
 #SBATCH --export=ALL
 
 module --force purge
-module load palma/2024a
-module load GCCcore/13.3.0
-module load Python/3.12.3
+module load palma/2023b
+module load GCCcore/13.2.0
+module load Python/3.11.5
 
 # ABSOLUTER PFAD ZUR VENV
 VENV_DIR="/scratch/tmp/lterfehr/BachelorThesisScripts/eval/.venv"
+source "/scratch/tmp/lterfehr/BachelorThesisScripts/target_bases.sh"
 
-if [ -d "${VENV_DIR}" ]; then
-    echo "=== Alte venv gefunden. Lösche Verzeichnis ==="
-    rm -rf "${VENV_DIR}"
-fi
-
-echo "=== Erstelle venv komplett neu ==="
-python3 -m venv "${VENV_DIR}"
-
-# EXPLIZITE PFADE ZUR SCRATCH-VENV (ohne 'source' zu vertrauen)
-PY_SCRATCH="${VENV_DIR}/bin/python"
+rm -rf "${VENV_DIR}"
+python -m venv "${VENV_DIR}"
+source "${VENV_DIR}/bin/activate"
 
 echo "=== Installiere requirements.txt in Scratch-Venv ==="
 # HIER IST DER TRICK: '-m pip' zwingt Python dazu, EXAKT in diese Venv zu installieren!
-"${PY_SCRATCH}" -m pip install --upgrade pip
-"${PY_SCRATCH}" -m pip install -r "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/requirements.txt"
+pip install --upgrade pip
+pip install -r "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/requirements.txt"
 
 echo "=== Starte Evaluation für RGBD Modelle ==="
-source "/scratch/tmp/lterfehr/BachelorThesisScripts/target_bases.sh"
 
 for ((i=0; i<BASES_COUNT; i++)); do
-    TARGET_BASE="${RGBD_TARGET_BASES[$i]}"
+    export TARGET_BASE="${RGBD_TARGET_BASES[$i]}"
     source "/scratch/tmp/lterfehr/BachelorThesisScripts/rgbd_datasets.sh"
 
     echo "=== Starte Evaluation für ${TARGET_BASE} ==="
-    cd "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/"
 
-    "${PY_SCRATCH}" eval.py --gt "${GT[i]}" --pred "${TARGET[i]}"
+    cd "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/"
+    python eval.py --gt "${GT[i]}" --pred "${TARGET[i]}"
 done
 
 echo "=== Starte Evaluation für RGB Modelle ==="
 
 for ((j=0; j<BASES_COUNT; j++)); do
-    TARGET_BASE="${RGB_TARGET_BASES[$j]}"
+    export TARGET_BASE="${RGB_TARGET_BASES[$j]}"
     source "/scratch/tmp/lterfehr/BachelorThesisScripts/rgb_datasets.sh"
 
     echo "=== Starte Evaluation für ${TARGET_BASE} ==="
-    cd "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/"
 
-    "${PY_SCRATCH}" eval.py --gt "${GT[j]}" --pred "${TARGET[j]}"
+    cd "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/"
+    python eval.py --gt "${GT[j]}" --pred "${TARGET[j]}"
 done
