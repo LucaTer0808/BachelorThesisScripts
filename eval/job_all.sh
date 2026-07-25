@@ -43,7 +43,7 @@ for ((i=0; i<BASES_COUNT; i++)); do
     echo "=== Starte Evaluation für ${TARGET_BASE} ==="
     cd "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/"
 
-    python eval.py --gt "${GT[i]}" --pred "${TARGET[i]}"
+    "${VENV}/bin/python" eval.py --gt "${GT[i]}" --pred "${TARGET[i]}"
 done
 
 echo "=== Starte Evaluation für RGB Modelle ==="
