@@ -13,9 +13,9 @@
 #SBATCH --export=ALL
 
 module --force purge
-module load palma/2025a
-module load GCCcore/14.2.0
-module load Python/3.13.1
+module load palma/2024a
+module load GCCcore/13.3.0
+module load Python/3.12.3
 
 # ABSOLUTER PFAD ZUR VENV
 VENV_DIR="/scratch/tmp/lterfehr/BachelorThesisScripts/eval/.venv"
