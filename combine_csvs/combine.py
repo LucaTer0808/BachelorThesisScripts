@@ -1,8 +1,12 @@
 import glob
+import os
 import pandas as pd
 
 SEARCH_PATTERN = "/scratch/tmp/lterfehr/model_results/**/evaluation.csv"
 OUTPUT_CSV_PATH = "/scratch/tmp/lterfehr/model_results/combined_evaluation.csv"
+
+if os.path.exists(OUTPUT_CSV_PATH):
+    os.remove(OUTPUT_CSV_PATH)
 
 csv_files = sorted(glob.glob(SEARCH_PATTERN, recursive=True))
 
