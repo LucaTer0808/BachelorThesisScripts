@@ -1,0 +1,4 @@
+pysodmetrics
+opencv-python
+pandas
+tqdm
