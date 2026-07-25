@@ -9,7 +9,8 @@ OUTPUT_DIR = "/scratch/tmp/lterfehr/model_results/plots/"
 
 if os.path.exists(OUTPUT_DIR):
     shutil.rmtree(OUTPUT_DIR)
-    os.makedirs(OUTPUT_DIR, exist_ok=False)
+
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 df = pd.read_csv(CSV_FILE_PATH, sep=";")
 
@@ -19,7 +20,6 @@ datasets = df["Dataset"].unique().tolist()
 prefixes = [ds.split("_", 1)[0] for ds in datasets]
 
 dataset_dict = {prefix: [] for prefix in prefixes}
-rgb_dict = {prefix: "RGB" for prefix in prefixes}
 
 rgbd_bases = {
     "DUT-RGBD", "LFSD", "NJUD", "NLPR", "RGBD135", 
@@ -34,11 +34,9 @@ for ds in datasets:
 
 
 for metric in metrics:
-    # Überprüfen, ob die Metrik überhaupt in der CSV vorkommt
     if metric not in df.columns:
         continue
 
-    # MAE ist besser, wenn kleiner – andere Metriken besser, wenn größer
     is_lower_better = (metric.upper() == "MAE")
 
     for dataset in dataset_dict.keys():
@@ -46,38 +44,38 @@ for metric in metrics:
         rgb_or_rgbd = rgb_dict[dataset]
         entries = dataset_dict[dataset]
 
-        # 1. ALLE vollständigen Datensatz-Namen für diese Basis rekonstruieren
-        # Beispiel: ['ReDWeb-S_gen_depth', 'ReDWeb-S_no_depth']
         full_names = ["_".join(entry) for entry in entries]
-
-        # 2. ZUGRIFF AUF DIE CSV-WERTE:
-        # Wir filtern alle Zeilen aus 'df', deren 'Dataset' in unserer Liste vorkommt
         df_sub = df[df["Dataset"].isin(full_names)].copy()
 
-        # Falls für diesen Datensatz keine Daten existieren -> überspringen
         if df_sub.empty:
             continue
 
-        # 3. ZUSATZ-SPALTE FÜR DIE FARBEN ANLEGEN:
-        # Wir definieren für jede Zeile, ob sie Blau (RGB / no_depth) oder Rot (RGBD) wird
-        def get_color_group(ds_name):
-            if rgb_or_rgbd == "RGBD" and ds_name.endswith("_no_depth"):
-                return "RGB"
+        # 1. FARBGRUPPE & MODELLNAMEN ANPASSEN
+        def process_row(row):
+            ds_name = row["Dataset"]
+            model_name = row["Model"]
+
+            # Wenn es künstlich erzeugte Tiefendaten sind:
+            if ds_name.endswith("_gen_depth"):
+                row["Color_Group"] = "RGBD with generated depth"
+                row["Model_Display"] = f"{model_name} (gen_depth)"
+            elif rgb_or_rgbd == "RGBD" and ds_name.endswith("_no_depth"):
+                row["Color_Group"] = "RGB"
+                row["Model_Display"] = model_name
             elif rgb_or_rgbd == "RGBD":
-                return "RGBD"
-            elif rgb_or_rgbd == "RGB" and ds_name.endswith("_gen_depth"):
-                return "RGBD"
+                row["Color_Group"] = "RGBD"
+                row["Model_Display"] = model_name
             else:
-                return "RGB"
+                row["Color_Group"] = "RGB"
+                row["Model_Display"] = model_name
 
-        df_sub["Color_Group"] = df_sub["Dataset"].apply(get_color_group)
+            return row
 
-        # 4. DATEN NACH DEN WERATEN DER METRIK SORTIEREN
+        df_sub = df_sub.apply(process_row, axis=1)
+
+        # Sortierung nach dem Wert der Metrik
         df_sorted = df_sub.sort_values(by=metric, ascending=is_lower_better)
 
-        # --- AB HIER WIRD GEPLOTTE ---
-        
-        # Ordner für diesen Datensatz anlegen
         ds_dir = os.path.join(OUTPUT_DIR, dataset)
         os.makedirs(ds_dir, exist_ok=True)
 
@@ -85,21 +83,21 @@ for metric in metrics:
 
         # Farben zuweisen
         palette = {
-            "RGB": "#3498db",    # BLAU
-            "RGBD": "#e74c3c"  # ROT
+            "RGB": "#3498db",                         # BLAU
+            "RGBD": "#e74c3c",                        # ROT
+            "RGBD with generated depth": "#66000f"     # DUNKELROT
         }
 
-        # Balkendiagramm mit Seaborn
         ax = sns.barplot(
             data=df_sorted,
-            x=metric,            # Greift auf die Werte der Metrik-Spalte zu
-            y="Model",           # Greift auf die Modellnamen-Spalte zu
-            hue="Color_Group",   # Färbt nach RGB / RGBD
+            x=metric,
+            y="Model_Display",   # Vervollständigter Name inkl. (gen_depth)
+            hue="Color_Group",   # Farbunterscheidung
             palette=palette,
-            dodge=False          # Setzt Balken untereinander statt nebeneinander
+            dodge=False,
+            errorbar=None
         )
 
-        # Werte direkt an die Balken schreiben
         for p in ax.patches:
             width = p.get_width()
             if width > 0:
