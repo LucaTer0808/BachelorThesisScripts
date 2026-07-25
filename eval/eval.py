@@ -74,7 +74,6 @@ parts = [p for p in args.pred.split('/') if p]
 results_summary = {
     "Model": [parts[4]],
     "Dataset": [parts[5]],
-    "Prediction_Path": [args.pred],
     "Sm": [round(sm, 4)],
     "maxFm": [round(max_fm, 4)],
     "adpFm": [round(adp_fm, 4)],
