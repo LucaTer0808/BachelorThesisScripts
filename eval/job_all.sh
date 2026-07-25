@@ -29,8 +29,8 @@ python3 -m venv "${VENV}"
 source "${VENV}/bin/activate"
 
 echo "=== Installiere requirements.txt ==="
-pip install --quiet --upgrade pip
-pip install --quiet -r "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/requirements.txt"
+pip install --upgrade pip
+pip install -r "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/requirements.txt"
 
 source "/scratch/tmp/lterfehr/BachelorThesisScripts/target_bases.sh"
 
