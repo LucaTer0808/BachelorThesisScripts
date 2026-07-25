@@ -1,7 +1,7 @@
 import argparse
 import os
 import pandas as pd
-from PySODMetrics import Emeasure, Fmeasure, MAE, Smeasure, WeightedFmeasure
+from py_sod_metrics import Emeasure, Fmeasure, MAE, Smeasure, WeightedFmeasure
 from tqdm import tqdm
 import cv2
 
