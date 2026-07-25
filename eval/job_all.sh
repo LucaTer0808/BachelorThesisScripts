@@ -12,53 +12,41 @@
 #SBATCH --mail-user=lterfehr@uni-muenster.de
 #SBATCH --export=ALL
 
-set -e
-
 module --force purge
 module load palma/2025a
 module load GCCcore/14.2.0
 module load Python/3.13.1
 
-VENV="/scratch/tmp/lterfehr/BachelorThesisScripts/eval/.venv"
+# ABSOLUTER PFAD ZUR VENV
+VENV_DIR="/scratch/tmp/lterfehr/BachelorThesisScripts/eval/.venv"
 
-if [ -d "${VENV}" ]; then
+if [ -d "${VENV_DIR}" ]; then
     echo "=== Alte venv gefunden. Lösche Verzeichnis ==="
-    rm -rf "${VENV}"
+    rm -rf "${VENV_DIR}"
 fi
 
 echo "=== Erstelle venv komplett neu ==="
-python3 -m venv "${VENV}"
-source "${VENV}/bin/activate"
+python3 -m venv "${VENV_DIR}"
 
-echo "=== Upgrade pip ==="
-"${VENV}/bin/python" -m pip install --upgrade pip
+# EXPLIZITE PFADE ZUR SCRATCH-VENV (ohne 'source' zu vertrauen)
+PY_SCRATCH="${VENV_DIR}/bin/python"
 
-echo "=== Installiere requirements ==="
-"${VENV}/bin/python" -m pip install -r "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/requirements.txt"
-
-echo "=== Python Debug ==="
-echo "VIRTUAL_ENV=${VIRTUAL_ENV}"
-echo "which python: $(which python)"
-echo "which python3: $(which python3)"
-
-"${VENV}/bin/python" -c "import sys; print('Python:', sys.executable)"
-"${VENV}/bin/python" -c "import pysodmetrics; print('pysodmetrics:', pysodmetrics.__file__)"
-
-source "/scratch/tmp/lterfehr/BachelorThesisScripts/target_bases.sh"
+echo "=== Installiere requirements.txt in Scratch-Venv ==="
+# HIER IST DER TRICK: '-m pip' zwingt Python dazu, EXAKT in diese Venv zu installieren!
+"${PY_SCRATCH}" -m pip install --upgrade pip
+"${PY_SCRATCH}" -m pip install -r "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/requirements.txt"
 
 echo "=== Starte Evaluation für RGBD Modelle ==="
+source "/scratch/tmp/lterfehr/BachelorThesisScripts/target_bases.sh"
 
 for ((i=0; i<BASES_COUNT; i++)); do
     TARGET_BASE="${RGBD_TARGET_BASES[$i]}"
     source "/scratch/tmp/lterfehr/BachelorThesisScripts/rgbd_datasets.sh"
 
     echo "=== Starte Evaluation für ${TARGET_BASE} ==="
-
     cd "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/"
 
-    "${VENV}/bin/python" eval.py \
-        --gt "${GT[i]}" \
-        --pred "${TARGET[i]}"
+    "${PY_SCRATCH}" eval.py --gt "${GT[i]}" --pred "${TARGET[i]}"
 done
 
 echo "=== Starte Evaluation für RGB Modelle ==="
@@ -68,12 +56,7 @@ for ((j=0; j<BASES_COUNT; j++)); do
     source "/scratch/tmp/lterfehr/BachelorThesisScripts/rgb_datasets.sh"
 
     echo "=== Starte Evaluation für ${TARGET_BASE} ==="
-
     cd "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/"
 
-    "${VENV}/bin/python" eval.py \
-        --gt "${GT[j]}" \
-        --pred "${TARGET[j]}"
+    "${PY_SCRATCH}" eval.py --gt "${GT[j]}" --pred "${TARGET[j]}"
 done
-
-echo "=== Evaluation abgeschlossen ==="
