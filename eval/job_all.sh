@@ -55,5 +55,5 @@ for ((j=0; j<BASES_COUNT; j++)); do
     echo "=== Starte Evaluation für ${TARGET_BASE} ==="
     cd "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/"
 
-    python eval.py --gt "${GT[j]}" --pred "${TARGET[j]}"
+    "${VENV}/bin/python" eval.py --gt "${GT[j]}" --pred "${TARGET[j]}"
 done
