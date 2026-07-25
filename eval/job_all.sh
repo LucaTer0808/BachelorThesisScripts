@@ -26,30 +26,50 @@ python -m venv "${VENV_DIR}"
 source "${VENV_DIR}/bin/activate"
 
 echo "=== Installiere requirements.txt in Scratch-Venv ==="
-# HIER IST DER TRICK: '-m pip' zwingt Python dazu, EXAKT in diese Venv zu installieren!
+
 pip install --upgrade pip
 pip install -r "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/requirements.txt"
 
 echo "=== Starte Evaluation für RGBD Modelle ==="
 
-for ((i=0; i<BASES_COUNT; i++)); do
-    export TARGET_BASE="${RGBD_TARGET_BASES[$i]}"
+for ((x=0;x<${BASES_COUNT};x++)); do
+    echo "=== Evaluation für Model $((x + 1)) von ${BASES_COUNT} ==="
+    export TARGET_BASE="${RGBD_TARGET_BASES[x]}"
+
     source "/scratch/tmp/lterfehr/BachelorThesisScripts/rgbd_datasets.sh"
 
-    echo "=== Starte Evaluation für ${TARGET_BASE} ==="
+    for ((y=0; y<${COUNT}; y++)); do
 
-    cd "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/"
-    python eval.py --gt "${GT[i]}" --pred "${TARGET[i]}"
+        echo "=== Dataset $((y + 1)) von ${COUNT} ==="
+        echo "=== GT Pfad: ${GT[y]} ==="
+        echo "=== Target Pfad: ${TARGET[y]} ==="
+        echo ""
+
+        cd "/scratch/tmp/lterfehr/BachelorThesisScripts/eval"
+        python eval.py --gt "${GT[y]}" --pred "${TARGET[y]}"
+    done
+
+    echo ""
 done
 
 echo "=== Starte Evaluation für RGB Modelle ==="
 
-for ((j=0; j<BASES_COUNT; j++)); do
-    export TARGET_BASE="${RGB_TARGET_BASES[$j]}"
+for ((a=0;a<${BASES_COUNT};a++)); do
+    echo "=== Evaluation für Model $((a + 1)) von ${BASES_COUNT} ==="
+    export TARGET_BASE="${RGB_TARGET_BASES[a]}"
+
     source "/scratch/tmp/lterfehr/BachelorThesisScripts/rgb_datasets.sh"
 
-    echo "=== Starte Evaluation für ${TARGET_BASE} ==="
+    for ((b=0; b<${COUNT}; b++)); do
 
-    cd "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/"
-    python eval.py --gt "${GT[j]}" --pred "${TARGET[j]}"
+        echo "=== Dataset $((b + 1)) von ${COUNT} ==="
+        echo "=== GT Pfad: ${GT[b]} ==="
+        echo "=== Target Pfad: ${TARGET[b]} ==="
+        echo ""
+
+        cd "/scratch/tmp/lterfehr/BachelorThesisScripts/eval"
+        python eval.py --gt "${GT[b]}" --pred "${TARGET[b]}"
+    done
+
+    echo ""
 done
