@@ -69,17 +69,6 @@ precisions = res_f['pr']['p']
 recalls = res_f['pr']['r']
 
 results_summary = {
-    "SM" :[round(sm, 4)],
-    "maxFM" :[round(max_fm, 4)],
-    "adpFM" :[round(adp_fm, 4)],
-    "wFM" :[round(wfm, 4)],
-    "adpEM" :[round(adp_em, 4)],
-    "MAE" :[round(mae, 4)],
-    "Precisions" :[round(precisions, 4)],
-    "Recalls" :[round(recalls, 4)]
-}
-
-results_summary = {
     "Dataset_Path": [args.gt],
     "Prediction_Path": [args.pred],
     "Sm": [round(sm, 4)],
