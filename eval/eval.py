@@ -91,7 +91,7 @@ results_summary = {
 }
 
 df_summary = pd.DataFrame(results_summary)
-output_csv_path = os.path.join(args.pred, "evaluation_results.csv")
+output_csv_path = os.path.join(args.pred, "evaluation.csv")
 df_summary.to_csv(output_csv_path, index=False, sep=";")
 
 print(f"\n[INFO] Ergebnisse wurden gespeichert unter:\n{output_csv_path}")
