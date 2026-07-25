@@ -1,7 +1,4 @@
 pandas
 tqdm
-numpy
-scipy
-scikit-image
-scikit-learn
-opencv-python-headless
+pysodmetrics
+opencv-python
