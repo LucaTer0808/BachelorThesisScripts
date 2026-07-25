@@ -12,6 +12,8 @@
 #SBATCH --mail-user=lterfehr@uni-muenster.de
 #SBATCH --export=ALL
 
+set -e
+
 module --force purge
 module load palma/2025a
 module load GCCcore/14.2.0
@@ -20,7 +22,7 @@ module load Python/3.13.1
 VENV="/scratch/tmp/lterfehr/BachelorThesisScripts/eval/.venv"
 
 if [ -d "${VENV}" ]; then
-    echo "=== Alte venv gefunden. Lösche Verzeichnis === "
+    echo "=== Alte venv gefunden. Lösche Verzeichnis ==="
     rm -rf "${VENV}"
 fi
 
@@ -28,9 +30,19 @@ echo "=== Erstelle venv komplett neu ==="
 python3 -m venv "${VENV}"
 source "${VENV}/bin/activate"
 
-echo "=== Installiere requirements.txt ==="
-pip install --upgrade pip
-pip install -r "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/requirements.txt"
+echo "=== Upgrade pip ==="
+"${VENV}/bin/python" -m pip install --upgrade pip
+
+echo "=== Installiere requirements ==="
+"${VENV}/bin/python" -m pip install -r "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/requirements.txt"
+
+echo "=== Python Debug ==="
+echo "VIRTUAL_ENV=${VIRTUAL_ENV}"
+echo "which python: $(which python)"
+echo "which python3: $(which python3)"
+
+"${VENV}/bin/python" -c "import sys; print('Python:', sys.executable)"
+"${VENV}/bin/python" -c "import pysodmetrics; print('pysodmetrics:', pysodmetrics.__file__)"
 
 source "/scratch/tmp/lterfehr/BachelorThesisScripts/target_bases.sh"
 
@@ -41,9 +53,12 @@ for ((i=0; i<BASES_COUNT; i++)); do
     source "/scratch/tmp/lterfehr/BachelorThesisScripts/rgbd_datasets.sh"
 
     echo "=== Starte Evaluation für ${TARGET_BASE} ==="
+
     cd "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/"
 
-    "${VENV}/bin/python" eval.py --gt "${GT[i]}" --pred "${TARGET[i]}"
+    "${VENV}/bin/python" eval.py \
+        --gt "${GT[i]}" \
+        --pred "${TARGET[i]}"
 done
 
 echo "=== Starte Evaluation für RGB Modelle ==="
@@ -53,7 +68,12 @@ for ((j=0; j<BASES_COUNT; j++)); do
     source "/scratch/tmp/lterfehr/BachelorThesisScripts/rgb_datasets.sh"
 
     echo "=== Starte Evaluation für ${TARGET_BASE} ==="
+
     cd "/scratch/tmp/lterfehr/BachelorThesisScripts/eval/"
 
-    "${VENV}/bin/python" eval.py --gt "${GT[j]}" --pred "${TARGET[j]}"
+    "${VENV}/bin/python" eval.py \
+        --gt "${GT[j]}" \
+        --pred "${TARGET[j]}"
 done
+
+echo "=== Evaluation abgeschlossen ==="

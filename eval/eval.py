@@ -92,6 +92,10 @@ results_summary = {
 
 df_summary = pd.DataFrame(results_summary)
 output_csv_path = os.path.join(args.pred, "evaluation.csv")
+
+if os.path.exists(output_csv_path):
+    os.remove(output_csv_path)
+
 df_summary.to_csv(output_csv_path, index=False, sep=";")
 
 print(f"\n[INFO] Ergebnisse wurden gespeichert unter:\n{output_csv_path}")
@@ -104,6 +108,10 @@ pr_curve_data = {
 }
 df_pr = pd.DataFrame(pr_curve_data)
 pr_csv_path = os.path.join(args.pred, "prcurve.csv")
+
+if os.path.exists(pr_csv_path):
+    os.remove(pr_csv_path)
+
 df_pr.to_csv(pr_csv_path, index=False, sep=";")
 
 print(f"[INFO] PR-Kurvendaten gespeichert unter:\n{pr_csv_path}")
