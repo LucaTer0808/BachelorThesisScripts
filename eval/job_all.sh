@@ -17,7 +17,7 @@ module load palma/2025a
 module load GCCcore/14.2.0
 module load Python/3.13.1
 
-VENV="/scratch/tmp/lterfehr/BachelorThesisScripts/eval/.venv/"
+VENV="/scratch/tmp/lterfehr/BachelorThesisScripts/eval/.venv"
 
 if [ -d "${VENV}" ]; then
     echo "=== Alte venv gefunden. Lösche Verzeichnis === "
