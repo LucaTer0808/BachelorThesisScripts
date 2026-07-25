@@ -1,7 +1,7 @@
 import argparse
 import os
 import pandas as pd
-from py_sod_metrics import Emeasure, FmeasureV2, MAE, Smeasure, WeightedFmeasure
+from py_sod_metrics import Emeasure, Fmeasure, MAE, Smeasure, WeightedFmeasure
 from tqdm import tqdm
 import cv2
 
@@ -12,7 +12,7 @@ parser.add_argument("--pred", type=str, required=True, help="Path to the predict
 args = parser.parse_args()
 
 # FMeasure
-eval_f = FmeasureV2() # beta value is set to 0.3 by default
+eval_f = Fmeasure() # beta value is set to 0.3 by default
 eval_mae = MAE()
 eval_s = Smeasure()
 eval_wf = WeightedFmeasure()
