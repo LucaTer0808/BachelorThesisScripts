@@ -14,7 +14,7 @@ args = parser.parse_args()
 # FMeasure
 eval_f = Fmeasure() # beta value is set to 0.3 by default
 eval_mae = MAE()
-eval_s = Smeasure()
+eval_s = Smeasure() # default threshold is 0.5
 eval_wf = WeightedFmeasure()
 eval_em = Emeasure()
 
