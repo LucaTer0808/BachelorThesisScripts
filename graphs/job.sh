@@ -27,5 +27,6 @@ pip install --quiet -r "/scratch/tmp/lterfehr/BachelorThesisScripts/graphs/requi
 
 cd "/scratch/tmp/lterfehr/BachelorThesisScripts/graphs"
 python create_graphs.py
+python create_graphs_rgb.py
 
 echo "=== Graphen wurden erfolgreich erstellt! ==="
