@@ -2,9 +2,8 @@
 #SBATCH --nodes=1
 #SBATCH --tasks-per-node=1
 #SBATCH --cpus-per-task=4
-#SBATCH --partition=express
-#SBATCH --gres=gpu:1
-#SBATCH --time=10:00:00
+#SBATCH --partition=normal
+#SBATCH --time=01:00:00
 
 #SBATCH --job-name=create_graph
 #SBATCH --output=outs/create_graph_%j.out
