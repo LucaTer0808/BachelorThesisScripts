@@ -29,6 +29,10 @@ for base_ds in RGBD_BASES:
     if not matching_ds:
         continue
 
+    # Ordner für den aktuellen Datensatz anlegen
+    ds_dir = os.path.join(OUTPUT_DIR, base_ds)
+    os.makedirs(ds_dir, exist_ok=True)
+
     # Alle Modelle für diesen Datensatz ermitteln
     models = sorted(list(set(col[0] for col in all_columns if col[1] in matching_ds)))
 
@@ -65,13 +69,13 @@ for base_ds in RGBD_BASES:
         plt.legend(loc="lower left", fontsize=10)
         plt.tight_layout()
 
-        # Dateiname bereinigen (Sonderzeichen im Modellnamen abfangen)
+        # Dateiname bereinigen und im Unterordner speichern
         safe_model_name = model.replace("/", "_").replace(" ", "_")
-        plot_path = os.path.join(OUTPUT_DIR, f"{base_ds}_{safe_model_name}_PR_Curve.png")
+        plot_path = os.path.join(ds_dir, f"{base_ds}_{safe_model_name}_PR_Curve.png")
 
         plt.savefig(plot_path, dpi=300)
         plt.close()
 
         print(f"📊 Plot gespeichert: {plot_path}")
 
-print("✅ Fertig! Alle Einzel-PR-Plots wurden erstellt.")
+print("✅ Fertig! Alle Einzel-PR-Plots wurden in den jeweiligen Datensatz-Ordnern erstellt.")
