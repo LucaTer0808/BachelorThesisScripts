@@ -1,10 +1,14 @@
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
+import shutil
 
 ROOT_DIR = "/scratch/tmp/lterfehr/model_results/"
 COMBINED_CSV = os.path.join(ROOT_DIR, "all_models_pr_curves.csv")
 OUTPUT_DIR = os.path.join(ROOT_DIR, "plots_pr_curves_per_model/")
+
+if os.path.exists(OUTPUT_DIR):
+    shutil.rmtree(OUTPUT_DIR)
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
