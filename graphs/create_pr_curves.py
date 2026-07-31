@@ -58,6 +58,10 @@ for base_ds in RGBD_BASES:
     plt.tight_layout()
 
     plot_path = os.path.join(OUTPUT_DIR, f"{base_ds}_PR_Curve.png")
+
+    if os.path.exists(plot_path):
+        os.remove(plot_path)
+
     plt.savefig(plot_path, dpi=300)
     plt.close()
 
