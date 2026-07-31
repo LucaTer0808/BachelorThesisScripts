@@ -28,5 +28,6 @@ pip install --quiet -r "/scratch/tmp/lterfehr/BachelorThesisScripts/combine_csvs
 
 cd "/scratch/tmp/lterfehr/BachelorThesisScripts/combine_csvs"
 python combine.py
+python combine_pr_curves.py
 
 echo "=== CSVs wurden erfolgreich zusammengeführt! ==="

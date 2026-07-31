@@ -29,5 +29,6 @@ cd "/scratch/tmp/lterfehr/BachelorThesisScripts/graphs"
 python create_graphs.py
 python create_rgbd_graphs.py
 python create_rgbd_graphs_pairwise.py
+python create_pr_curves.py
 
 echo "=== Graphen wurden erfolgreich erstellt! ==="
