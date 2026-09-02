@@ -19,7 +19,6 @@ module load GCCcore/11.2.0
 MODELDIR="/scratch/tmp/lterfehr/models/VST/RGBD_VST"
 VENV="${MODELDIR}/.venv"
 
-
 RGB="/scratch/tmp/lterfehr/datasets/rgbd/COME-E/RGB"
 DEPTH="/scratch/tmp/lterfehr/datasets/rgbd/COME-E/depths"
 TARGET="/scratch/tmp/lterfehr/model_results/RGBD_VST/COME-E"
