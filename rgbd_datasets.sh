@@ -23,6 +23,10 @@ RGB=(
     "/scratch/tmp/lterfehr/datasets/rgbd/SIP_gen_depth/test_images/"
     "/scratch/tmp/lterfehr/datasets/rgbd/STERE/test_images/"
     "/scratch/tmp/lterfehr/datasets/rgbd/STERE_gen_depth/test_images/"
+    "/scratch/tmp/lterfehr/datasets/rgbd/COME-E/RGB/"
+    "/scratch/tmp/lterfehr/datasets/rgbd/COME-H/RGB/"
+    "/scratch/tmp/lterfehr/datasets/rgbd/COME-E_gen_depth/RGB/"
+    "/scratch/tmp/lterfehr/datasets/rgbd/COME-H_gen_depth/RGB/"
 )
 
 DEPTH=(
@@ -50,6 +54,10 @@ DEPTH=(
     "/scratch/tmp/lterfehr/datasets/rgbd/SIP_gen_depth/gen_depth/"
     "/scratch/tmp/lterfehr/datasets/rgbd/STERE/test_depth/"
     "/scratch/tmp/lterfehr/datasets/rgbd/STERE_gen_depth/gen_depth/"
+    "/scratch/tmp/lterfehr/datasets/rgbd/COME-E/depths/"
+    "/scratch/tmp/lterfehr/datasets/rgbd/COME-H/depths/"
+    "/scratch/tmp/lterfehr/datasets/rgbd/COME-E_gen_depth/gen_depth/"
+    "/scratch/tmp/lterfehr/datasets/rgbd/COME-H_gen_depth/gen_depth/"
 )
 
 GT=(
@@ -77,6 +85,10 @@ GT=(
     "/scratch/tmp/lterfehr/datasets/rgbd/SIP_gen_depth/test_masks/"
     "/scratch/tmp/lterfehr/datasets/rgbd/STERE/test_masks/"
     "/scratch/tmp/lterfehr/datasets/rgbd/STERE_gen_depth/test_masks/"
+    "/scratch/tmp/lterfehr/datasets/rgbd/COME-E/GT/"
+    "/scratch/tmp/lterfehr/datasets/rgbd/COME-H/GT/"
+    "/scratch/tmp/lterfehr/datasets/rgbd/COME-E_gen_depth/GT/"
+    "/scratch/tmp/lterfehr/datasets/rgbd/COME-H_gen_depth/GT/"
 )
 
 TARGET=(
@@ -104,6 +116,10 @@ TARGET=(
     "${TARGET_BASE}/SIP_gen_depth/"
     "${TARGET_BASE}/STERE/"
     "${TARGET_BASE}/STERE_gen_depth/"
+    "${TARGET_BASE}/COME-E/"
+    "${TARGET_BASE}/COME-H/"
+    "${TARGET_BASE}/COME-E_gen_depth/"
+    "${TARGET_BASE}/COME-H_gen_depth/"
 )
 
 COUNT="${#RGB[@]}"
