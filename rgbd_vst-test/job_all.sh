@@ -36,5 +36,9 @@ bash job_STERE_gen_depth.sh
 bash job_STERE.sh
 bash job_STEREO_gen_depth.sh
 bash job_STEREO.sh
+bash job_COME-E.sh
+bash job_COME-E_gen_depth.sh
+bash job_COME-H.sh
+bash job_COME-H_gen_depth.sh
 
 echo "=== Job finished ==="
