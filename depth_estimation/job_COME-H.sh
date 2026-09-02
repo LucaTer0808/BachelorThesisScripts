@@ -6,7 +6,7 @@
 #SBATCH --gres=gpu:1
 
 #SBATCH --job-name=come-h_depth_estimation
-#SBATCH --output=come-h_depth_estimation_%j.out
+#SBATCH --output=out/come-h_depth_estimation_%j.out
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=lterfehr@uni-muenster.de
 
