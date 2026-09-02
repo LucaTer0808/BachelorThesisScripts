@@ -33,4 +33,4 @@ source "${VENV}/bin/activate"
 pip install --quiet --upgrade pip
 pip install --quiet -r "${DIR}/requirements.txt"
 
-python "${DIR}/check_sizes.py" --folder_1="${X}" --folder_2="${Y}"
+python "${DIR}/check.py" --folder_1="${X}" --folder_2="${Y}"
