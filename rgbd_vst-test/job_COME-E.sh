@@ -27,7 +27,6 @@ cd "${MODELDIR}"
 
 nvidia-smi
 
-
 if [ ! -d "${VENV}" ]; then
     echo "=== Keine alte venv gefunden. Lösche Verzeichnis === "
     python3 -m venv "${VENV}"
