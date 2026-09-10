@@ -16,5 +16,6 @@ module --force purge
 module load palma/2021b
 module load CUDA/11.6.0
 module load GCCcore/11.2.0
+module load Python/3.9.25
 
 python3 --version
