@@ -11,7 +11,6 @@
 #SBATCH --mail-user=lterfehr@uni-muenster.de
 #SBATCH --export=ALL
 
-
 module --force purge
 module load palma/2021b
 module load CUDA/11.6.0
