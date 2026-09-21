@@ -16,6 +16,7 @@ df = pd.read_csv(CSV_FILE_PATH, sep=";")
 
 metrics = ["Sm", "maxFm", "adpFm", "wFm", "adpEm", "MAE"]
 
+# STERE wurde entfernt, STEREO bleibt erhalten
 rgbd_bases = {
     "DUT-RGBD",
     "LFSD",
@@ -26,8 +27,10 @@ rgbd_bases = {
     "ReDWeb-S",
     "SSD",
     "STEREO",
-    "STERE",
 }
+
+# Nach Länge absteigend sortieren, damit längere Namen zuerst geprüft werden
+sorted_bases = sorted(rgbd_bases, key=len, reverse=True)
 
 
 # Parse dataset names and clean prefixes
@@ -45,7 +48,7 @@ def parse_dataset_info(ds_name):
 
     # Check prefix against defined RGB-D benchmark bases
     matched_base = None
-    for b in rgbd_bases:
+    for b in sorted_bases:
         if base_name == b or base_name.startswith(b + "_"):
             matched_base = b
             break
