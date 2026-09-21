@@ -30,5 +30,6 @@ python create_graphs.py
 python create_rgbd_graphs.py
 python create_rgbd_graphs_pairwise.py
 python create_pr_curves.py
+python create_graphs_model.py
 
 echo "=== Graphen wurden erfolgreich erstellt! ==="
