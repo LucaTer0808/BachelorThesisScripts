@@ -1,7 +1,7 @@
 import os
-import pandas as pd
-import matplotlib.pyplot as plt
 import shutil
+import matplotlib.pyplot as plt
+import pandas as pd
 
 ROOT_DIR = "/scratch/tmp/lterfehr/model_results/"
 COMBINED_CSV = os.path.join(ROOT_DIR, "all_models_pr_curves.csv")
@@ -12,7 +12,7 @@ if os.path.exists(OUTPUT_DIR):
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# Grosse CSV mit 3-stufigem Header einlesen
+# Load CSV with 3-level MultiIndex header: (Model, Dataset, Metric)
 df_all = pd.read_csv(COMBINED_CSV, sep=";", header=[0, 1, 2], index_col=0)
 
 RGBD_BASES = [
@@ -24,16 +24,19 @@ all_columns = df_all.columns
 all_datasets = set(col[1] for col in all_columns)
 
 for base_ds in RGBD_BASES:
-    matching_ds = [ds for ds in all_datasets if ds.startswith(base_ds) and not ds.endswith("_no_depth")]
+    matching_ds = [
+        ds for ds in all_datasets
+        if ds.startswith(base_ds) and not ds.endswith("_no_depth")
+    ]
 
     if not matching_ds:
         continue
 
-    # Ordner für den aktuellen Datensatz anlegen
+    # Create destination directory for current dataset
     ds_dir = os.path.join(OUTPUT_DIR, base_ds)
     os.makedirs(ds_dir, exist_ok=True)
 
-    # Alle Modelle für diesen Datensatz ermitteln
+    # Retrieve sorted list of unique models for this dataset
     models = sorted(list(set(col[0] for col in all_columns if col[1] in matching_ds)))
 
     for model in models:
@@ -42,24 +45,36 @@ for base_ds in RGBD_BASES:
         has_rgbd = (model, base_ds, "Precision") in all_columns
         has_gen = (model, ds_gen, "Precision") in all_columns
 
-        # Überspringen, falls für dieses Modell keine Daten vorliegen
+        # Skip if no curve data is available for this model
         if not has_rgbd and not has_gen:
             continue
 
         plt.figure(figsize=(7, 6))
-        plt.title(f"PR-Kurve: {model}\nDatensatz: {base_ds}", fontsize=12, fontweight="bold")
+        plt.title(f"PR Curve: {model}\nDataset: {base_ds}", fontsize=12, fontweight="bold")
 
-        # 1. Echte Tiefe (RGBD) -> Blau, durchgezogen
+        # 1. Ground truth / sensor depth (RGB-D) -> Solid blue
         if has_rgbd:
             p = df_all[(model, base_ds, "Precision")]
             r = df_all[(model, base_ds, "Recall")]
-            plt.plot(r, p, label="Echte Tiefe (RGBD)", color="#1f77b4", linestyle="-", linewidth=2)
+            plt.plot(
+                r, p,
+                label="Original Depth (RGB-D)",
+                color="#1f77b4",
+                linestyle="-",
+                linewidth=2
+            )
 
-        # 2. Generierte Tiefe (gen_depth) -> Orange, gestrichelt
+        # 2. Generated depth (Depth Anything V2) -> Dashed orange
         if has_gen:
             p_gen = df_all[(model, ds_gen, "Precision")]
             r_gen = df_all[(model, ds_gen, "Recall")]
-            plt.plot(r_gen, p_gen, label="Künstliche Tiefe (gen_depth)", color="#ff7f0e", linestyle="--", linewidth=2)
+            plt.plot(
+                r_gen, p_gen,
+                label="Generated Depth (RGB-D)",
+                color="#ff7f0e",
+                linestyle="--",
+                linewidth=2
+            )
 
         plt.xlabel("Recall", fontsize=11)
         plt.ylabel("Precision", fontsize=11)
@@ -69,13 +84,13 @@ for base_ds in RGBD_BASES:
         plt.legend(loc="lower left", fontsize=10)
         plt.tight_layout()
 
-        # Dateiname bereinigen und im Unterordner speichern
+        # Sanitize model name for filesystem compatibility
         safe_model_name = model.replace("/", "_").replace(" ", "_")
-        plot_path = os.path.join(ds_dir, f"{base_ds}_{safe_model_name}_PR_Curve.png")
+        plot_path = os.path.join(ds_dir, f"{base_ds}_{safe_model_name}_pr_curve.png")
 
         plt.savefig(plot_path, dpi=300)
         plt.close()
 
-        print(f"📊 Plot gespeichert: {plot_path}")
+        print(f"📊 Plot saved: {plot_path}")
 
-print("✅ Fertig! Alle Einzel-PR-Plots wurden in den jeweiligen Datensatz-Ordnern erstellt.")
+print("✅ Complete! All individual PR curve plots successfully generated.")
