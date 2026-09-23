@@ -1,8 +1,8 @@
 import os
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 import shutil
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
 
 CSV_FILE_PATH = "/scratch/tmp/lterfehr/model_results/combined_evaluation.csv"
 OUTPUT_DIR = "/scratch/tmp/lterfehr/model_results/plots_rgbd_only_pairwise/"
@@ -24,14 +24,13 @@ rgbd_bases = {
     "SIP", "ReDWeb-S", "SSD", "STERE", "STEREO",
 }
 
-# --- Nur RGBD-Datensätze behalten ---
+# --- Retain only RGB-D benchmark datasets ---
 dataset_dict = {prefix: [] for prefix in prefixes if prefix in rgbd_bases}
 
 for ds in datasets:
     prefix = ds.split("_", 1)[0]
     if prefix in dataset_dict:
         dataset_dict[prefix].append(ds.split("_", 1))
-
 
 for metric in metrics:
     if metric not in df.columns:
@@ -40,11 +39,10 @@ for metric in metrics:
     is_lower_better = (metric.upper() == "MAE")
 
     for dataset in dataset_dict.keys():
-
         entries = dataset_dict[dataset]
         full_names = ["_".join(entry) for entry in entries]
 
-        # --- Nur RGBD-Modelle behalten: "_no_depth"-Varianten rausfiltern ---
+        # --- Filter out '_no_depth' variants ---
         full_names = [n for n in full_names if not n.endswith("_no_depth")]
 
         df_sub = df[df["Dataset"].isin(full_names)].copy()
@@ -52,19 +50,19 @@ for metric in metrics:
         if df_sub.empty:
             continue
 
-        # FARBGRUPPE & MODELLNAMEN ANPASSEN
+        # --- Format color group and display labels ---
         def process_row(row):
             ds_name = row["Dataset"]
             model_name = row["Model"]
 
             if ds_name.endswith("_gen_depth"):
-                row["Color_Group"] = "RGBD with generated depth"
+                row["Color_Group"] = "RGB-D (Generated Depth)"
                 row["Model_Display"] = f"{model_name} (gen_depth)"
             else:
-                row["Color_Group"] = "RGBD"
+                row["Color_Group"] = "RGB-D (Original Depth)"
                 row["Model_Display"] = model_name
 
-            # Reine Modellbezeichnung für die Gruppen-Sortierung
+            # Base model name for grouped ordering
             row["Base_Model"] = model_name
 
             return row
@@ -72,9 +70,9 @@ for metric in metrics:
         df_sub = df_sub.apply(process_row, axis=1)
 
         # ---------------------------------------------------------------------
-        # NEU: Sortierung nach Paaren (Base_Model & Variante)
+        # Order by model pairs (Base_Model & Variant)
         # ---------------------------------------------------------------------
-        # 1. Bestimme den Sortierwert pro Modell-Gruppe (z.B. den besten Wert des Paars)
+        # 1. Determine sort value per model group (e.g., best value of the pair)
         group_order = (
             df_sub.groupby("Base_Model")[metric]
             .agg("min" if is_lower_better else "max")
@@ -82,10 +80,10 @@ for metric in metrics:
             .index
         )
 
-        # 2. Wandle 'Base_Model' in ein Categorical mit fester Reihenfolge um
+        # 2. Convert 'Base_Model' to categorical with fixed ordering
         df_sub["Base_Model"] = pd.Categorical(df_sub["Base_Model"], categories=group_order, ordered=True)
 
-        # 3. Sortiere zuerst nach Base_Model, dann nach Variante (RGBD zuerst, gen_depth danach)
+        # 3. Sort first by Base_Model, then by variant (Original first, gen_depth second)
         df_sorted = df_sub.sort_values(
             by=["Base_Model", "Color_Group"],
             ascending=[True, True]
@@ -97,10 +95,10 @@ for metric in metrics:
 
         plt.figure(figsize=(10, max(5, len(df_sorted) * 0.4)))
 
-        # Farben zuweisen (kein RGB mehr, nur noch RGBD-Varianten)
+        # Color palette for pairwise comparison
         palette = {
-            "RGBD": "#e74c3c",                        # ROT
-            "RGBD with generated depth": "#66000f",    # DUNKELROT
+            "RGB-D (Original Depth)": "#e74c3c",       # Red
+            "RGB-D (Generated Depth)": "#66000f",      # Dark red
         }
 
         ax = sns.barplot(
@@ -113,6 +111,7 @@ for metric in metrics:
             errorbar=None
         )
 
+        # Add metric value labels to each bar
         for p in ax.patches:
             width = p.get_width()
             if width > 0:
@@ -125,10 +124,13 @@ for metric in metrics:
                     textcoords="offset points"
                 )
 
-        title_suffix = "(Niedriger ist besser)" if is_lower_better else "(Höher ist besser)"
-        plt.title(f"Dataset: {dataset} (RGBD) — Metrik: {metric} {title_suffix}", fontsize=12, fontweight="bold")
+        title_suffix = "(lower is better)" if is_lower_better else "(higher is better)"
+        plt.title(f"Dataset: {dataset} (RGB-D) — Metric: {metric} {title_suffix}", fontsize=12, fontweight="bold")
         plt.xlabel(metric, fontsize=10)
-        plt.ylabel("Modell", fontsize=10)
+        plt.ylabel("Model", fontsize=10)
+
+        # Set clean legend title
+        plt.legend(title="Depth Input", loc="lower right")
 
         plt.xlim(0, df_sorted[metric].max() * 1.15)
         plt.tight_layout()
@@ -137,4 +139,4 @@ for metric in metrics:
         plt.savefig(plot_path, dpi=300)
         plt.close()
 
-print("✅ Alle RGBD-Plots wurden erfolgreich im Zielordner gespeichert!")
+print("All RGB-D plots have been successfully generated and saved.")
